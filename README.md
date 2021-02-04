@@ -37,7 +37,7 @@ It provides 3 handy tools for images:
 * The must-have macro shortcut : (from Nick George)
 	- [Q] easy switch between Color and Composite mode on multichannel images
 
-* And finally a collection of keyboard shortcuts for some of the tools and for what I think are frequently used commands in Imagej when handling stacks or hyperstacks: 
+* A collection of keyboard shortcuts for some macros and additionnal shortcuts for frequently used commands when handling stacks or hyperstacks: 
 
 	Macro shortcut :
 	- [A] Enhance Contrast, saturated=0.3 : almost same as "Auto" button in Brightness tool
