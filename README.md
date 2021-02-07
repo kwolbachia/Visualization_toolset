@@ -1,6 +1,6 @@
 # Visualization_toolset
 
-This toolset intends to ease basic manipulation and visualization of multichannel images and stacks.
+This toolset is for basic manipulation and visualization of multichannel images and stacks.
 
 The Visualization_Toolset.ijm file has been written in the most
 readable way possible (well I did my best) in order to be easily customized or adjusted.
