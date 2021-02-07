@@ -19,7 +19,7 @@ It provides 3 handy tools for images:
 * __Set image LUTs__ : 
 	- A dialog let you select LUTs for each channels and then apply them to your multichannel image.
 
-![image]https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/set_LUTs_and_shortcuts.png
+![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/set_LUTs_and_shortcuts.png)
 
 * __Auto-contrast Adjustment__ :
 	- Especially usefull for stacks (but not restricted to), this macro resets the min and max based on the entire stack so you can navigate through slices without signal saturation. 
@@ -69,5 +69,5 @@ It provides 3 handy tools for images:
 	- [n6]  yellow
 
 * __Installation :__
-	- put the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application.
-	- You will now find the toolset in the toolset menu of imageJ bar [>>] button
+	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application.
+	- You will now find the toolset in the toolset menu of imageJ bar ( [>>] button ).
