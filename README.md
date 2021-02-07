@@ -16,6 +16,8 @@ It provides 3 handy tools for images:
 	Grayscale splitview creates a linear montage with colored overlay and grey channels.
 	You can still navigate through slices or frames.
 
+![image|24x24](https://sky2.sic.montp.cnrs.fr/index.php/s/7d4a3oC25Z5tQYB)
+
 * Set image LUTs : 
 	A dialog let you select LUTs for each channels and then apply them to your multichannel image.
 
