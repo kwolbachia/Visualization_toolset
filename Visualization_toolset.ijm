@@ -1,6 +1,9 @@
 //Handy tools for multichannel images visualization and multiple opened images handling
-//1.0 070221
 //kevin.terretaz@gmail.com
+
+//1.0 070221
+//1.1 080721 forgotten adjustments + up to 7 Set LUTs
+
 
 requires("1.53c");  // minimal version for extended hex icon feature 
 
@@ -17,9 +20,9 @@ macro"About Menu Tool - B31C000T2e20?"{
 /*----------------------------------------------------------------------------------------------------------------------
 Reset the contrast of the active channel between the min and max of all slices, not just the active one.
 ----------------------------------------------------------------------------------------------------------------------*/
-var first_click = true  //to show help once per session
+var first_click = 1  //to show help once per session
 macro "Reset contrast Action Tool-N44CeeeD00CeeeD01CeeeD02CeeeD03CeeeD04CeeeD05CeeeD06CeeeD07CeeeD08CeeeD09CeeeD0aCeeeD0bCeeeD0cCeeeD0dCeeeD0eCeeeD0fCeeeD0gCeeeD0hCeeeD0iCeeeD0jCeeeD0kCeeeD0lCeeeD0mCeeeD0nCeeeD10CeeeD11CeeeD12CeeeD13CeeeD14CeeeD15CeeeD16Ce15D17Cf9bD18CeeeD19CeeeD1aCeeeD1bCeeeD1cCeeeD1dCeeeD1eCf9bD1fCe15D1gCeeeD1hCeeeD1iCeeeD1jCeeeD1kCeeeD1lCeeeD1mCeeeD1nCeeeD20CeeeD21CeeeD22CeeeD23CeeeD24CeeeD25CeeeD26Ce15D27Ce15D28CeeeD29CeeeD2aCeeeD2bCeeeD2cCeeeD2dCeeeD2eCe15D2fCe15D2gCeeeD2hCeeeD2iCeeeD2jCeeeD2kCeeeD2lCeeeD2mCeeeD2nCeeeD30CeeeD31CeeeD32CeeeD33CeeeD34CeeeD35CeeeD36Cf9bD37Ce15D38CeeeD39CeeeD3aCeeeD3bCeeeD3cCeeeD3dCeeeD3eCe15D3fCf9bD3gCeeeD3hCeeeD3iCeeeD3jCeeeD3kCeeeD3lCeeeD3mCeeeD3nCeeeD40CeeeD41CeeeD42CeeeD43CeeeD44CeeeD45CeeeD46CeeeD47CeeeD48CfefD49CbabD4aC999D4bC999D4cCbbbD4dCfffD4eCeeeD4fCeeeD4gCeeeD4hCeeeD4iCeeeD4jCeeeD4kCeeeD4lCeeeD4mCeeeD4nCeeeD50CeeeD51CeeeD52CeeeD53CeeeD54CeeeD55CeeeD56CeeeD57C767D58C112D59C101D5aC101D5bC101D5cC101D5dC112D5eC767D5fCeeeD5gCeeeD5hCeeeD5iCeeeD5jCeeeD5kCeeeD5lCeeeD5mCeeeD5nCeeeD60CeeeD61CeeeD62CeeeD63CeeeD64CeeeD65CdddD66C323D67C101D68C213D69C224D6aC224D6bC224D6cC224D6dC113D6eC101D6fC323D6gCdddD6hCeeeD6iCeeeD6jCeeeD6kCeeeD6lCeeeD6mCeeeD6nCeeeD70Ce15D71Ce15D72Cf9bD73CeeeD74CeeeD75C323D76C112D77C224D78C234D79C234D7aCeeeD7bC234D7cC234D7dC234D7eC224D7fC112D7gC323D7hCeeeD7iCeeeD7jCf9bD7kCe15D7lCe15D7mCeeeD7nCeeeD80Cf9bD81Ce15D82Ce15D83CeeeD84C767D85C101D86C224D87C234D88C234D89C234D8aCeeeD8bC234D8cC234D8dC234D8eC234D8fC224D8gC101D8hC767D8iCeeeD8jCe15D8kCe15D8lCf9bD8mCeeeD8nCeeeD90CeeeD91CeeeD92CeeeD93CfefD94C112D95C213D96C234D97C234D98C234D99C234D9aCeeeD9bC234D9cC234D9dC234D9eC234D9fC234D9gC113D9hC112D9iCfffD9jCeeeD9kCeeeD9lCeeeD9mCeeeD9nCeeeDa0CeeeDa1CeeeDa2CeeeDa3CbabDa4C101Da5C224Da6C234Da7C234Da8C234Da9C234DaaCeeeDabC234DacC234DadC234DaeC234DafC234DagC224DahC101DaiCbbbDajCeeeDakCeeeDalCeeeDamCeeeDanCeeeDb0CeeeDb1CeeeDb2CeeeDb3C999Db4C101Db5C224Db6C234Db7C234Db8C234Db9C234DbaC234DbbC234DbcC234DbdC234DbeC234DbfC234DbgC224DbhC101DbiC999DbjCeeeDbkCeeeDblCeeeDbmCeeeDbnCeeeDc0CeeeDc1Cf9aDc2Cf47Dc3Cf47Dc4Ce25Dc5Ce26Dc6Cf69Dc7Cf69Dc8Cf69Dc9Cf69DcaCf69DcbCf69DccCf69DcdCf69DceCf69DcfCf69DcgCe26DchCe26DciCf47DcjCf47DckCf9aDclCeeeDcmCeeeDcnCeeeDd0CeeeDd1CfffDd2Cf68Dd3Cf47Dd4Ce26Dd5Ce15Dd6Cf69Dd7Cf69Dd8Cf69Dd9Cf69DdaC101DdbCf69DdcCf69DddCf69DdeCf69DdfCf69DdgCe15DdhCe26DdiCf47DdjCf68DdkCfffDdlCeeeDdmCeeeDdnCeeeDe0CeeeDe1CeeeDe2CfeeDe3Cf57De4Cf36De5Ce15De6Cf48De7Cf69De8Cf69De9Cf69DeaC101DebCf69DecCf69DedCf69DeeCf69DefCf47DegCe15DehCf36DeiCf57DejCfeeDekCeeeDelCeeeDemCeeeDenCeeeDf0Cf9bDf1Ce15Df2Ce15Df3Cf9bDf4Cf47Df5Ce15Df6Ce15Df7Cf58Df8C101Df9C101DfaC101DfbC101DfcC101DfdCf69DfeCf58DffCe15DfgCe25DfhCf47DfiCf9bDfjCe15DfkCe15DflCf9bDfmCeeeDfnCeeeDg0Ce15Dg1Ce15Dg2Cf9bDg3CfbcDg4Cf47Dg5Cf47Dg6Ce15Dg7Ce15Dg8Cf47Dg9Cf69DgaC101DgbCf69DgcCf69DgdCf47DgeCe15DgfCe15DggCf47DghCf47DgiCfbcDgjCf9bDgkCe15DglCe15DgmCeeeDgnCeeeDh0CeeeDh1CeeeDh2CeeeDh3CfbcDh4Cf47Dh5Cf47Dh6Cf47Dh7Ce25Dh8Ce15Dh9Ce15DhaC101DhbCe26DhcCe15DhdCe15DheCe25DhfCf47DhgCf47DhhCf47DhiCfbcDhjCeeeDhkCeeeDhlCeeeDhmCeeeDhnCeeeDi0CeeeDi1CeeeDi2CeeeDi3CfeeDi4CfccDi5Cf47Di6Cf47Di7Cf47Di8Cf36Di9Ce26DiaCe26DibCe25DicCe26DidCf36DieCf47DifCf47DigCf47DihCfccDiiCfeeDijCeeeDikCeeeDilCeeeDimCeeeDinCeeeDj0CeeeDj1CeeeDj2CeeeDj3CeeeDj4CfeeDj5CfccDj6CfbcDj7Cf9bDj8Cf57Dj9Cf47DjaCf47DjbCf47DjcCf47DjdCf57DjeCf9bDjfCfbcDjgCfccDjhCfeeDjiCeeeDjjCeeeDjkCeeeDjlCeeeDjmCeeeDjnCeeeDk0CeeeDk1CeeeDk2CeeeDk3CeeeDk4CeeeDk5CeeeDk6Cf9bDk7Ce15Dk8CfeeDk9Cf68DkaCf47DkbCf47DkcCf68DkdCfeeDkeCe15DkfCf47DkgCeeeDkhCeeeDkiCeeeDkjCeeeDkkCeeeDklCeeeDkmCeeeDknCeeeDl0CeeeDl1CeeeDl2CeeeDl3CeeeDl4CeeeDl5CeeeDl6Ce15Dl7Ce15Dl8CeeeDl9CfffDlaCf9aDlbCf9aDlcCfffDldCeeeDleCe15DlfCe15DlgCeeeDlhCeeeDliCeeeDljCeeeDlkCeeeDllCeeeDlmCeeeDlnCeeeDm0CeeeDm1CeeeDm2CeeeDm3CeeeDm4CeeeDm5CeeeDm6Ce15Dm7Cf9bDm8CeeeDm9CeeeDmaCeeeDmbCeeeDmcCeeeDmdCeeeDmeCf47DmfCe15DmgCeeeDmhCeeeDmiCeeeDmjCeeeDmkCeeeDmlCeeeDmmCeeeDmnCeeeDn0CeeeDn1CeeeDn2CeeeDn3CeeeDn4CeeeDn5CeeeDn6CeeeDn7CeeeDn8CeeeDn9CeeeDnaCeeeDnbCeeeDncCeeeDndCeeeDneCeeeDnfCeeeDngCeeeDnhCeeeDniCeeeDnjCeeeDnkCeeeDnlCeeeDnmCeeeDnn" {
-	if (first_click == true){
+	if (first_click == 1){
 	Dialog.createNonBlocking("First click info");
 	Dialog.addMessage("Especially usefull for stacks (but not restricted to),\n"+
 		"this macro resets the min and max based on the entire stack \n"+
@@ -27,7 +30,7 @@ macro "Reset contrast Action Tool-N44CeeeD00CeeeD01CeeeD02CeeeD03CeeeD04CeeeD05C
 		"Tip : if you have bright spots on your stack,\n"+
 		"use the tool with an ROI on your signal of interest.",12);
 	Dialog.show();
-	first_click = false;
+	first_click = 0;
 	Reset_contrast();
 	}
 	else Reset_contrast();
@@ -66,7 +69,6 @@ macro"All opened images tools Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D
 	cmd = getArgument();
 	if (cmd!="-") run(cmd);
 }
-
 
 /*
 //Built-in Stack and LUT menus
@@ -191,25 +193,21 @@ macro "About Splitview" {
 //----------------------------------------------------------------------------------------------------------------------
 
 /*----------------------------------------------------------------------------------------------------------------------
-"Set LUTs" applies the chosen LUTs from left to right. Up to five channels.
-"Set all LUTs" does the same with all opened images. Images don't need to have same number of channels.
+function for all opened images processing : puts images ID in the all_IDs array : easier to avoid loop errors after.(thanks Jerome)
 ----------------------------------------------------------------------------------------------------------------------*/
-macro "Set LUTs"{
-	Get_LUTs();
-	Set_LUTs();
-}
-macro "Set all LUTs"{
-	Get_LUTs();
-	for (i = 0; i < nImages; i++) {
-		selectImage(i+1);
-		Set_LUTs();
-	}
+var all_IDs = newArray();
+
+function Get_all_IDs() {	
+	for (a=0; a<nImages ; a++) {		
+		selectImage(a+1);
+		all_IDs[a] = getImageID(); 
+	} 
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
 functions for Set LUTs macros
 ----------------------------------------------------------------------------------------------------------------------*/
-var chosen_LUTs = newArray("Cyan","Magenta","Yellow","Grays","Green");
+var chosen_LUTs = newArray();
 
 function Get_LUTs(){   
 	LUT_list = newArray("Cyan","Magenta","Yellow","Grays","Red","Green","Blue");//Add you favorite or personnal LUTs in the list to see them in dialog.
@@ -219,22 +217,46 @@ function Get_LUTs(){
 	Dialog.addChoice("LUT 3", LUT_list, "Yellow");
 	Dialog.addChoice("LUT 4", LUT_list, "Grays");
 	Dialog.addChoice("LUT 5", LUT_list, "Green");
+	Dialog.addChoice("LUT 6", LUT_list, "Grays");
+	Dialog.addChoice("LUT 7", LUT_list, "Grays");
 	Dialog.show();
-	chosen_LUTs = newArray(Dialog.getChoice(), Dialog.getChoice(), Dialog.getChoice(), Dialog.getChoice(),Dialog.getChoice());
+	for (k = 0; k < 7; k++) {
+	chosen_LUTs[k] = Dialog.getChoice(); 
+	}
 }
 
 function Set_LUTs(){
 	getDimensions(width, height, channels, slices, frames);
 	if(channels > 1){
 		Stack.setDisplayMode("composite");
-		for (loop = 1; loop <= channels; loop++) {
-		Stack.setChannel(loop);
-		run(chosen_LUTs[loop-1]);
+		for (A = 1; A <= channels; A++) {
+		Stack.setChannel(A);
+		run(chosen_LUTs[A-1]);	
 		}
 	}
-	else {run(chosen_LUTs[0]);	} //need the "if / else" because Stack.setChannel doesn't work on single dimension images
+	else {run(chosen_LUTs[0]);}	//need the "if / else" because Stack.setChannel doesn't work on single dimension images
+} 
+
+
+/*----------------------------------------------------------------------------------------------------------------------
+"Set LUTs" applies the chosen LUTs from left to right. Up to five channels.
+"Set all LUTs" does the same with all opened images. Images don't need to have same number of channels.
+----------------------------------------------------------------------------------------------------------------------*/
+macro "Set LUTs"{
+	Get_LUTs();
+	Set_LUTs();
 }
 
+macro "Set all LUTs"{
+	Get_LUTs();
+	setBatchMode(1);
+	Get_all_IDs();
+	for (b=0; b<nImages; b++) {
+		selectImage(all_IDs[b]);
+		Set_LUTs();
+	}
+	setBatchMode(0);
+}
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -243,7 +265,7 @@ function for Reset contrast macros :
 Reset the contrast window between min and max on active channel
 ----------------------------------------------------------------------------------------------------------------------*/
 function Reset_contrast() { 
-	setBatchMode(true);
+	setBatchMode(1);
 	id = getImageID();
 	getDimensions(width, height, channels, slices, frames);
 	if (slices*frames*channels == 1) {
@@ -262,7 +284,7 @@ function Reset_contrast() {
 	selectImage(id);
 	setMinAndMax(min, max);
 	close("A");
-	setBatchMode("exit and display");
+	setBatchMode(0);
 }
 /*----------------------------------------------------------------------------------------------------------------------
 the getStatistics function only works on single dimension image
@@ -275,23 +297,25 @@ That's why this macro function had to be adapted to the 3 cases of,
 Reset the contrast window between min and max on all individual channels
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Auto-contrast on all channels" {
-	    getDimensions(width, height, channels, slices, frames);
-		if(channels>1)	{
-			for (A = 1; A <= channels; A++) {
+    getDimensions(width, height, channels, slices, frames);
+	if(channels>1)	{
+		for (A = 1; A <= channels; A++) {
 			Stack.setChannel(A);
 			Reset_contrast();
-			}
 		}
-		else {Reset_contrast();}
+	}
+	else {Reset_contrast();}
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
 Reset the contrast window between min and max on all opened images, for all stacks and individual channels (fairly quickly)
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Reset all contrasts" {
-	for (i=0;i<nImages;i++) {
-	    selectImage(i+1);
-	    run("Auto-contrast on all channels");
+	Get_all_IDs();
+	for (b=0; b<all_IDs.length; b++) {
+		showProgress(b/all_IDs.length);
+		selectImage(all_IDs[b]);
+	    run("Auto-contrast on all channels");	
 	}
 }
 
@@ -318,23 +342,18 @@ Can be handy to get a quick overview of multiple hyperstacks.
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Maximum Z project all" {
 	setBatchMode(1);
-	nIm = nImages;								//get number of opened images
-	opened_imagesID = newArray(nIm);
-	for (a=0; a<nIm ; a++) {					//put images ID in the opened_imagesID array : easier to avoid loop errors after.(thanks Jerome)
-		selectImage(a+1);
-		opened_imagesID[a] = getImageID(); 
-	} 
-	for (b=0; b<nIm; b++) {						//commands loop through the images ID array
-		selectImage(opened_imagesID[b]);
+	Get_all_IDs();
+	for (b=0; b<all_IDs.length; b++) {
+		selectImage(all_IDs[b]);
 		getDimensions(w, h, channels, slices, frames);
 		if (channels*slices*frames!=1) run("Z Project...", "projection=[Max Intensity] all"); 
 	}
-	for (c=0; c<nIm ; c++) {					//Close not projected images
-		selectImage(opened_imagesID[c]);
+	for (c=0; c<all_IDs.length ; c++) {		//Close not projected images
+		selectImage(all_IDs[c]);
 		close(); 
 	}
 	setBatchMode("exit and display");
-	run("Tile");								//reorder images windows
+	run("Tile");
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
