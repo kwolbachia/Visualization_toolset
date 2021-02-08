@@ -69,5 +69,5 @@ It provides 3 handy tools for images:
 	- [n6]  yellow
 
 * __Installation :__
-	- put the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application.
+	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)
 	- You will now find the toolset in the toolset menu of imageJ bar [>>] button
