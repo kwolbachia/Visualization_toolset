@@ -1,8 +1,10 @@
-//Handy tools for multichannel images visualization and multiple opened images handling
+
+//Tools for multichannel images visualization and multiple opened images handling
 //kevin.terretaz@gmail.com
 
 //1.0 070221
-//1.1 080721 forgotten adjustments + up to 7 Set LUTs
+//1.1 080221 forgotten adjustments + up to 7 Set LUTs
+//1.2 150221 bugs correction (Splitviews, Max all)
 
 
 requires("1.53c");  // minimal version for extended hex icon feature 
@@ -98,6 +100,7 @@ macro "Splitview" {
 	run("Duplicate...", "title=split duplicate");
 	run("Split Channels");
 	selectWindow("image");
+	Stack.setDisplayMode("composite");
 	run("RGB Color", "frames");
 	rename("overlay");
 	close("image");
@@ -147,6 +150,7 @@ macro "Grayscale Splitview (with color composite)" {
 	run("Duplicate...", "title=split duplicate");
 	run("Split Channels");
 	selectWindow("image");
+	Stack.setDisplayMode("composite");
 	run("RGB Color", "frames");
 	rename("overlay");
 	close("image");
@@ -195,9 +199,10 @@ macro "About Splitview" {
 /*----------------------------------------------------------------------------------------------------------------------
 function for all opened images processing : puts images ID in the all_IDs array : easier to avoid loop errors after.(thanks Jerome)
 ----------------------------------------------------------------------------------------------------------------------*/
-var all_IDs = newArray();
+var all_IDs = newArray(1);
 
-function Get_all_IDs() {	
+function Get_all_IDs() {
+	all_IDs = newArray(nImages);
 	for (a=0; a<nImages ; a++) {		
 		selectImage(a+1);
 		all_IDs[a] = getImageID(); 
@@ -207,7 +212,7 @@ function Get_all_IDs() {
 /*----------------------------------------------------------------------------------------------------------------------
 functions for Set LUTs macros
 ----------------------------------------------------------------------------------------------------------------------*/
-var chosen_LUTs = newArray();
+var chosen_LUTs = newArray(7);
 
 function Get_LUTs(){   
 	LUT_list = newArray("Cyan","Magenta","Yellow","Grays","Red","Green","Blue");//Add you favorite or personnal LUTs in the list to see them in dialog.
@@ -234,7 +239,7 @@ function Set_LUTs(){
 		run(chosen_LUTs[A-1]);	
 		}
 	}
-	else {run(chosen_LUTs[0]);}	//need the "if / else" because Stack.setChannel doesn't work on single dimension images
+	else {run(chosen_LUTs[0]);}	//need "if / else" because Stack.setChannel doesn't work on single dimension images
 } 
 
 
@@ -253,7 +258,7 @@ macro "Set all LUTs"{
 	Get_all_IDs();
 	for (b=0; b<nImages; b++) {
 		selectImage(all_IDs[b]);
-		Set_LUTs();
+		if ( bitDepth() != 24) Set_LUTs();	//only if not RGB
 	}
 	setBatchMode(0);
 }
@@ -348,9 +353,10 @@ macro "Maximum Z project all" {
 		getDimensions(w, h, channels, slices, frames);
 		if (channels*slices*frames!=1) run("Z Project...", "projection=[Max Intensity] all"); 
 	}
-	for (c=0; c<all_IDs.length ; c++) {		//Close not projected images
+	for (c=0; c<all_IDs.length ; c++) {	//Close not projected images
 		selectImage(all_IDs[c]);
-		close(); 
+		getDimensions(w, h, channels, slices, frames);
+		if (channels*slices*frames!=1) close();
 	}
 	setBatchMode("exit and display");
 	run("Tile");
