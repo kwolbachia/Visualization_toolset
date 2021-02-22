@@ -417,10 +417,23 @@ macro "Max [G]"						{run("Z Project...", "projection=[Max Intensity] all");}
 
 macro "Save as tiff [T]"			{saveAs("Tiff");}
 
-macro "composite switch [Q]" {//easy switch between Color and Composite mode on multichannel images.
+macro "composite switch [Q]" {//easy switch between Color, Grayscale and Composite mode on multichannel images.
+	msg="";
+	if (nImages<1) msg='no image';
+	if (!is("composite")) msg='not a composite image';
+	if (msg!="") exit(msg);
+	modes=newArray("Composite","Color","Grayscale");
 	Stack.getDisplayMode(mode);
-	if (mode == "color" || mode == "greyscale"){Stack.setDisplayMode("composite");} 
-	else {Stack.setDisplayMode("color");}
+	m=0;
+	for (i=0;i<modes.length;i++) 
+		if (mode==modes[i].toLowerCase()) m=i;
+	m=(m+1)%3;
+	Stack.setDisplayMode(modes[m]);
+	showStatus("Display mode set to : "+modes[m]);
+	
+	//Stack.getDisplayMode(mode);
+	//if (mode == "color" || mode == "greyscale"){Stack.setDisplayMode("composite");} 
+	//else {Stack.setDisplayMode("color");}
 }	//thanks to Nick George!
 
 //----------------------------------------------------------------------------------------------------------------------
