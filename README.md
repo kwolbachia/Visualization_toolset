@@ -37,7 +37,8 @@ It provides 3 handy tools for images:
 	- __Save all__ : Saves all opened images as Tiff in a specified directory.
 
 * The must-have macro shortcut : (from Nick George)
-	- [Q] easy switch between Color and Composite mode on multichannel images
+	- [Q] easy switch between Color and Composite mode on multichannel images.
+	with the settings icon, you can choose to either switch between composite and color / grayscale / or cycle the three.
 
 * A collection of __keyboard shortcuts__ for some macros and additionnal shortcuts for frequently used commands when handling stacks or hyperstacks: 
 
@@ -67,7 +68,8 @@ It provides 3 handy tools for images:
 	- [n4]  Cyan
 	- [n5]  Magenta
 	- [n6]  yellow
+* now when you press space and numerical keys from 1 to 7, you can toggle the corresponding channels.
 
 * __Installation :__
 	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)
-	- You will now find the toolset in the toolset menu of imageJ bar [>>] button
+	- You will now find the toolset in the "More Tools" menu of imageJ bar [>>] button
