@@ -2,6 +2,11 @@
 
 This toolset intends to ease basic manipulation and visualization of multichannel images and stacks.
 
+* __Installation :__
+	- Download this repository as .zip by clicking the green button "Code" and unzip it
+	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)
+	- You will now find the toolset in the "More Tools" menu of imageJ bar [>>] button
+
 The Visualization_Toolset.ijm file has been written in the most
 readable way possible (well I did my best) in order to be easily customized or adjusted.
 For example if you don't like keyboard shortcuts, you can delete them or change the [key].
@@ -70,6 +75,4 @@ It provides 3 handy tools for images:
 	- [n6]  yellow
 * now when you press space and numerical keys from 1 to 7, you can toggle the corresponding channels.
 
-* __Installation :__
-	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)
-	- You will now find the toolset in the "More Tools" menu of imageJ bar [>>] button
+
