@@ -5,43 +5,41 @@ This toolset intends to ease basic manipulation and visualization of multichanne
 * __Installation :__
 	- Download this repository as .zip by clicking the green button "Code" and unzip it
 	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)
-	- You will now find the toolset in the "More Tools" menu of imageJ bar [>>] button
+	- You will now find the toolset in the "More Tools" menu of imageJ bar ( [>>] button ).
 
-The Visualization_Toolset.ijm file has been written in the most
-readable way possible (well I did my best) in order to be easily customized or adjusted.
-For example if you don't like keyboard shortcuts, you can delete them or change the [key].
-
-It provides 3 handy tools for images:
+It provides handy tools for images:
 
 * __Splitview__ :
 	For multichannel visualization,
 	Splitview creates a RGB montage of composite and splited channels.
 	Grayscale splitview creates a linear montage with colored overlay and grey channels.
 	You can still navigate through slices or frames.
+	In the menu icon, the "Special Splitview" let you choose all color and layout combinasion, with also the possibilitty to add channel labels with colors corresponding to LUTs.
 
 ![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Splitview.png)
 
 * __Set image LUTs__ : 
-	- A dialog let you select LUTs for each channels and then apply them to your multichannel image.
+	- A dialog let you select LUTs for each channels and then apply them to your multichannel image. Also possible to set LUTs of all opened images.
 
 ![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Set_LUTs.png)
 
 * __Auto-contrast Adjustment__ :
 	- Especially usefull for stacks (but not restricted to), this macro resets the min and max based on the entire stack so you can navigate through slices without signal saturation. 
 
+* __gammaLUT Adjustment__ :
+	- By only modifying the active LUT of the channel, this tool gives the same visual result than the gamma from the Process/Math menu of imageJ.
+	The pixels data isn't modified. It can be applied on a single channel, all channels, all opened images. If you don't like the result, you can reset the primary LUT (for example Cyan).
 
 * Some tools for all opended images :
-
-	- __Set all LUTs__ : applies the chosen LUTs to all images.
 	
-	- __Reset all contrasts__ : applies the contrast adjustment tool to all individual channels of all opened images.
+	- __Reset all contrasts__ : runs the auto-contrast tool on all individual channels of all opened images.
 	
-	- __Maximum Z project all__ : Will run a maximal intensity projection on all opended stacks, close the  stacks and run "Tile" to see all windows.
+	- __Maximum Z project all__ : Will run a maximal intensity projection on all opended stacks, close the stacks and run "Tile" to arrange all windows.
 	Can be handy to get a quick overview of hyperstacks content.
 	
 	- __Save all__ : Saves all opened images as Tiff in a specified directory.
 
-* The must-have macro shortcut : (from Nick George)
+* The must-have macro shortcut : (found from Nick George)
 	- [Q] easy switch between Color and Composite mode on multichannel images.
 	with the settings icon, you can choose to either switch between composite and color / grayscale / or cycle the three.
 
@@ -74,5 +72,6 @@ It provides 3 handy tools for images:
 	- [n5]  Magenta
 	- [n6]  yellow
 * now when you press space and numerical keys from 1 to 7, you can toggle the corresponding channels.
+And if you maintain alt and numercial keys, it works the same for all opened images.
 
 
