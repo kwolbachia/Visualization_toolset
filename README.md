@@ -33,10 +33,6 @@ Tools description :
 
 ![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Set_LUTs.png)
 
-* __gammaLUT Adjustment__ :
-	By only modifying the active LUT of the channel, this tool gives the same visual result than the gamma from the Process/Math menu of imageJ.
-	The pixels data isn't modified. It can be applied on a single channel, all channels, all opened images. If you don't like the result, you can reset the primary LUT (for example Cyan).
-
 * Some tools for all opended images :
 	
 	- __Reset all contrasts__ : runs the auto-contrast tool on all individual channels of all opened images.
