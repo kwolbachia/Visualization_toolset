@@ -28,20 +28,20 @@ Tools description :
 
 ![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Splitview.png)
 
-* __Set image LUTs__ : 
+* __Set image LUTs__ :      
 	A dialog let you select LUTs for each channels and then apply them to your multichannel image. Also possible to set LUTs of all opened images.
 
 * Some tools for all opended images :
 	
-	- __Reset all contrasts__ : runs the auto-contrast tool on all individual channels of all opened images.
+	- __Reset all contrasts__ : runs the auto-contrast tool on all individual channels of all opened images.     
 	
 	- __Maximum Z project all__ : Will run a maximal intensity projection on all opended stacks, close the stacks and run "Tile" to arrange all windows.
 	Can be handy to get a quick overview of hyperstacks content.
 	
 	- __Save all__ : Saves all opened images as Tiff in a specified directory.
 
-* must-have macro shortcut : (found from Nick George)
-	[Q] easy switch between Color and Composite mode on multichannel images.
+* must-have macro shortcut : (found from Nick George)      
+	[Q] easy switch between Color and Composite mode on multichannel images.     
 	with the settings icon, you can choose to either switch between composite and color / grayscale / or cycle the three.
 
 * A collection of __keyboard shortcuts__ for some macros and additionnal shortcuts for frequently used commands when handling stacks or hyperstacks: 
@@ -65,8 +65,9 @@ Tools description :
 	- [G] run a maximal intensity projection
 	- [T] Save as Tiff
 
-* 6 numerical keys shortcuts for basic LUTs:
-	- [n1]  Grays
+* 7 numerical keys shortcuts for basic LUTs:
+	- [n0]  Gray
+	- [n1]  Blue
 	- [n2]  Green
 	- [n3]  Red
 	- [n4]  Cyan
