@@ -1,34 +1,37 @@
 # Visualization_toolset
 
-This toolset intends to ease basic manipulation and visualization of multichannel images and stacks.
+This toolset intends to ease daily manipulation and visualization of multichannel images and stacks.
 
 * __Installation :__
-	- Download this repository as .zip by clicking the green button "Code" and unzip it
-	- Place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)
-	- You will now find the toolset in the "More Tools" menu of imageJ bar ( [>>] button ).
+	- in Fiji, add the Visualisation Toolset update site in the updater
+	- For ImageJ, download this repository as .zip by clicking the green button "Code" and place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)     
+	- You will now find the toolset in the "More Tools" menu of imageJ main window ( [>>] button ).     
 
-It provides handy tools for images:
+Tools description : 
 
-* __Splitview__ :
-	For multichannel visualization,
-	Splitview creates a RGB montage of composite and splited channels.
-	Grayscale splitview creates a linear montage with colored overlay and grey channels.
-	You can still navigate through slices or frames.
+* __Multi Tool__ :            
+	A swiss army tool :      
+	Main Tool, normal click to move freely images windows (double click on icon to set the main tool)      
+	shift + drag to adjust min and max contrast      
+	ctrl or cmd + drag to adjust gamma on the LUT, not on pixels      
+	alt + drag to navigate slices or frames in stacks      
+
+* __Auto-contrast Adjustment__ :      
+	Especially usefull for stacks (but not restricted to), this macro resets the min and max based on the entire stack so you can navigate through slices without signal saturation. 
+
+* __Splitview__ :      
+	For multichannel visualization,      
+	Splitview creates a RGB montage of composite and splited channels.      
+	Grayscale splitview creates a linear montage with colored overlay and grey channels.      
+	You can still navigate through slices or frames.      
 	In the menu icon, the "Special Splitview" let you choose all color and layout combinasion, with also the possibilitty to add channel labels with colors corresponding to LUTs.
 
 ![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Splitview.png)
 
 * __Set image LUTs__ : 
-	- A dialog let you select LUTs for each channels and then apply them to your multichannel image. Also possible to set LUTs of all opened images.
+	A dialog let you select LUTs for each channels and then apply them to your multichannel image. Also possible to set LUTs of all opened images.
 
 ![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Set_LUTs.png)
-
-* __Auto-contrast Adjustment__ :
-	- Especially usefull for stacks (but not restricted to), this macro resets the min and max based on the entire stack so you can navigate through slices without signal saturation. 
-
-* __gammaLUT Adjustment__ :
-	- By only modifying the active LUT of the channel, this tool gives the same visual result than the gamma from the Process/Math menu of imageJ.
-	The pixels data isn't modified. It can be applied on a single channel, all channels, all opened images. If you don't like the result, you can reset the primary LUT (for example Cyan).
 
 * Some tools for all opended images :
 	
@@ -39,8 +42,8 @@ It provides handy tools for images:
 	
 	- __Save all__ : Saves all opened images as Tiff in a specified directory.
 
-* The must-have macro shortcut : (found from Nick George)
-	- [Q] easy switch between Color and Composite mode on multichannel images.
+* must-have macro shortcut : (found from Nick George)
+	[Q] easy switch between Color and Composite mode on multichannel images.
 	with the settings icon, you can choose to either switch between composite and color / grayscale / or cycle the three.
 
 * A collection of __keyboard shortcuts__ for some macros and additionnal shortcuts for frequently used commands when handling stacks or hyperstacks: 
@@ -71,7 +74,7 @@ It provides handy tools for images:
 	- [n4]  Cyan
 	- [n5]  Magenta
 	- [n6]  yellow
-* now when you press space and numerical keys from 1 to 7, you can toggle the corresponding channels.
+* Press space and numerical keys from 1 to 7 to toggle corresponding channels.
 And if you maintain alt and numercial keys, it works the same for all opened images.
 
 

@@ -6,23 +6,66 @@
 //1.2 150221 bugs correction (Splitviews, Max all)
 //1.3 280221 add settings for composite switch and auto-contrast icon
 		  // add toggle channels shortcuts tools.
-//1.4 110421 gammaLUTs, better Splitview and all images channel toggle key
+//1.4 110421 gammaLUTs, better SplitView and all images channel toggle key
+//2.0 040722 remove gamma icon, add multiTool icon (with gammaLUT inside), add borders to SplitView
+
+/*This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit
+of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to this
+software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org/>
+*/
 
 requires("1.53c");  // minimal version for extended hex icon feature 
 
+var mainTool = "Move Windows";
+var middleClick = 0;
+var enhance_rate = 0.03;
+var toolList = newArray("Move Windows",	"Contrast Adjuster", "Gamma on LUT", "slice / frame scroll" );
+
+macro "Multitool Tool - N55C000DdeCf00Db8Db9DbaDc7Dc8DcaDcbDd7DdbDe7De8DeaDebCfffDc9Dd8Dd9DdaDe9C777D02D11D12D17D18D21D28D2bD31D36D39D3aD3bD3eD41D42D46D47D4cD4dD4eD51D52D57D5bD5dD62D63D67D6dD72D73D74D75D76D77D83D85D86D94Cf90Da6Da7Da8Da9DaaDabDacDadDaeDb4Db5Dc4Dd4De4C444D03D19D22D29D2cD32D3cD43D4bD53D58D5eD64D68D6eD78D87Cf60D95D96D97D98D99D9aD9bD9cD9dD9eDa4Da5Db3Db6DbcDbdDbeDc3Dc5Dc6DccDcdDceDd3Dd5Dd6DdcDe3De5De6DecDedDeeC333Cf40Db7DbbDddBf0C000Cf00D08D09D0aCfffC777D13D22D23D24D32D33D35D36D37D38D39D3aD3bD42D43D46D47D48D49D4cD4dD52D53D54D58D59D5aD5dD5eD62D63D6aD6bD6cD6dD72D7cD7dD7eD82D8eD92Da2Cf90D05C444Cf60D03D04D06D0cD0dD0eD14D15D16D17D18D19D1aD1bD1cD1dD1eD25D26D27D28D29D2aD2bD2cD2dD2eC333D34D3cD3dD44D4eD64D73D83D93Da3Cf40D07D0bB0fC000D12Cf00CfffC777D50D60D61D62D70D72D73D74D80D81D82D83D84D85D86D91D92D93D94D95D96D97Da3Da4Da5Da6Da7Da8Cf90C444Cf60D00D04D05D06D09D10D18D20D21D23D24D25D26D27C333D01D02D03D40D51D52D63D64D75D76D87D98Da9Cf40D07D08D11D13D14D15D16D17D22Nf0C000Da2Dd2Dd5Cf00CfffC777D42D52D60D61D65D71D73D74D83D85D86Cf90Da0Da5Da6Db7Dc8C444D40D50D53D62D63D72D75D84Cf60D90D91D93D94D95D96D97Da1Da3Da4Da7Da8Db0Db4Db5Db6Db8Db9Dc5Dc6Dc7Dc9Dd7Dd8Dd9De5De6De7De9C333Db1Db2Db3Dc0Dc4Dd0Dd4De0De4Cf40D92Dc1Dc2Dc3Dd1Dd3Dd6De1De2De3De8" {
+	multiTool();
+}
+macro "Multitool Tool Options" {
+	Dialog.createNonBlocking("Options");
+	Dialog.addRadioButtonGroup("Main Tool : ", toolList, toolList.length, 1, mainTool);
+	Dialog.addCheckbox("middle click run macro from clipboard", middleClick);
+	Dialog.show();
+	mainTool = Dialog.getRadioButton();
+	middleClick =  Dialog.getCheckbox();
+}
 
 /*----------------------------------------------------------------------------------------------------------------------
 Reset the contrast of the active channel between the min and max of all slices, not just the active one.
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Auto contrast (right click for options) Action Tool-N44CeeeD00CeeeD01CeeeD02CeeeD03CeeeD04CeeeD05CeeeD06CeeeD07CeeeD08CeeeD09CeeeD0aCeeeD0bCeeeD0cCeeeD0dCeeeD0eCeeeD0fCeeeD0gCeeeD0hCeeeD0iCeeeD0jCeeeD0kCeeeD0lCeeeD0mCeeeD0nCeeeD10CeeeD11CeeeD12CeeeD13CeeeD14CeeeD15CeeeD16Ce15D17Cf9bD18CeeeD19CeeeD1aCeeeD1bCeeeD1cCeeeD1dCeeeD1eCf9bD1fCe15D1gCeeeD1hCeeeD1iCeeeD1jCeeeD1kCeeeD1lCeeeD1mCeeeD1nCeeeD20CeeeD21CeeeD22CeeeD23CeeeD24CeeeD25CeeeD26Ce15D27Ce15D28CeeeD29CeeeD2aCeeeD2bCeeeD2cCeeeD2dCeeeD2eCe15D2fCe15D2gCeeeD2hCeeeD2iCeeeD2jCeeeD2kCeeeD2lCeeeD2mCeeeD2nCeeeD30CeeeD31CeeeD32CeeeD33CeeeD34CeeeD35CeeeD36Cf9bD37Ce15D38CeeeD39CeeeD3aCeeeD3bCeeeD3cCeeeD3dCeeeD3eCe15D3fCf9bD3gCeeeD3hCeeeD3iCeeeD3jCeeeD3kCeeeD3lCeeeD3mCeeeD3nCeeeD40CeeeD41CeeeD42CeeeD43CeeeD44CeeeD45CeeeD46CeeeD47CeeeD48CfefD49CbabD4aC999D4bC999D4cCbbbD4dCfffD4eCeeeD4fCeeeD4gCeeeD4hCeeeD4iCeeeD4jCeeeD4kCeeeD4lCeeeD4mCeeeD4nCeeeD50CeeeD51CeeeD52CeeeD53CeeeD54CeeeD55CeeeD56CeeeD57C767D58C112D59C101D5aC101D5bC101D5cC101D5dC112D5eC767D5fCeeeD5gCeeeD5hCeeeD5iCeeeD5jCeeeD5kCeeeD5lCeeeD5mCeeeD5nCeeeD60CeeeD61CeeeD62CeeeD63CeeeD64CeeeD65CdddD66C323D67C101D68C213D69C224D6aC224D6bC224D6cC224D6dC113D6eC101D6fC323D6gCdddD6hCeeeD6iCeeeD6jCeeeD6kCeeeD6lCeeeD6mCeeeD6nCeeeD70Ce15D71Ce15D72Cf9bD73CeeeD74CeeeD75C323D76C112D77C224D78C234D79C234D7aCeeeD7bC234D7cC234D7dC234D7eC224D7fC112D7gC323D7hCeeeD7iCeeeD7jCf9bD7kCe15D7lCe15D7mCeeeD7nCeeeD80Cf9bD81Ce15D82Ce15D83CeeeD84C767D85C101D86C224D87C234D88C234D89C234D8aCeeeD8bC234D8cC234D8dC234D8eC234D8fC224D8gC101D8hC767D8iCeeeD8jCe15D8kCe15D8lCf9bD8mCeeeD8nCeeeD90CeeeD91CeeeD92CeeeD93CfefD94C112D95C213D96C234D97C234D98C234D99C234D9aCeeeD9bC234D9cC234D9dC234D9eC234D9fC234D9gC113D9hC112D9iCfffD9jCeeeD9kCeeeD9lCeeeD9mCeeeD9nCeeeDa0CeeeDa1CeeeDa2CeeeDa3CbabDa4C101Da5C224Da6C234Da7C234Da8C234Da9C234DaaCeeeDabC234DacC234DadC234DaeC234DafC234DagC224DahC101DaiCbbbDajCeeeDakCeeeDalCeeeDamCeeeDanCeeeDb0CeeeDb1CeeeDb2CeeeDb3C999Db4C101Db5C224Db6C234Db7C234Db8C234Db9C234DbaC234DbbC234DbcC234DbdC234DbeC234DbfC234DbgC224DbhC101DbiC999DbjCeeeDbkCeeeDblCeeeDbmCeeeDbnCeeeDc0CeeeDc1Cf9aDc2Cf47Dc3Cf47Dc4Ce25Dc5Ce26Dc6Cf69Dc7Cf69Dc8Cf69Dc9Cf69DcaCf69DcbCf69DccCf69DcdCf69DceCf69DcfCf69DcgCe26DchCe26DciCf47DcjCf47DckCf9aDclCeeeDcmCeeeDcnCeeeDd0CeeeDd1CfffDd2Cf68Dd3Cf47Dd4Ce26Dd5Ce15Dd6Cf69Dd7Cf69Dd8Cf69Dd9Cf69DdaC101DdbCf69DdcCf69DddCf69DdeCf69DdfCf69DdgCe15DdhCe26DdiCf47DdjCf68DdkCfffDdlCeeeDdmCeeeDdnCeeeDe0CeeeDe1CeeeDe2CfeeDe3Cf57De4Cf36De5Ce15De6Cf48De7Cf69De8Cf69De9Cf69DeaC101DebCf69DecCf69DedCf69DeeCf69DefCf47DegCe15DehCf36DeiCf57DejCfeeDekCeeeDelCeeeDemCeeeDenCeeeDf0Cf9bDf1Ce15Df2Ce15Df3Cf9bDf4Cf47Df5Ce15Df6Ce15Df7Cf58Df8C101Df9C101DfaC101DfbC101DfcC101DfdCf69DfeCf58DffCe15DfgCe25DfhCf47DfiCf9bDfjCe15DfkCe15DflCf9bDfmCeeeDfnCeeeDg0Ce15Dg1Ce15Dg2Cf9bDg3CfbcDg4Cf47Dg5Cf47Dg6Ce15Dg7Ce15Dg8Cf47Dg9Cf69DgaC101DgbCf69DgcCf69DgdCf47DgeCe15DgfCe15DggCf47DghCf47DgiCfbcDgjCf9bDgkCe15DglCe15DgmCeeeDgnCeeeDh0CeeeDh1CeeeDh2CeeeDh3CfbcDh4Cf47Dh5Cf47Dh6Cf47Dh7Ce25Dh8Ce15Dh9Ce15DhaC101DhbCe26DhcCe15DhdCe15DheCe25DhfCf47DhgCf47DhhCf47DhiCfbcDhjCeeeDhkCeeeDhlCeeeDhmCeeeDhnCeeeDi0CeeeDi1CeeeDi2CeeeDi3CfeeDi4CfccDi5Cf47Di6Cf47Di7Cf47Di8Cf36Di9Ce26DiaCe26DibCe25DicCe26DidCf36DieCf47DifCf47DigCf47DihCfccDiiCfeeDijCeeeDikCeeeDilCeeeDimCeeeDinCeeeDj0CeeeDj1CeeeDj2CeeeDj3CeeeDj4CfeeDj5CfccDj6CfbcDj7Cf9bDj8Cf57Dj9Cf47DjaCf47DjbCf47DjcCf47DjdCf57DjeCf9bDjfCfbcDjgCfccDjhCfeeDjiCeeeDjjCeeeDjkCeeeDjlCeeeDjmCeeeDjnCeeeDk0CeeeDk1CeeeDk2CeeeDk3CeeeDk4CeeeDk5CeeeDk6Cf9bDk7Ce15Dk8CfeeDk9Cf68DkaCf47DkbCf47DkcCf68DkdCfeeDkeCe15DkfCf47DkgCeeeDkhCeeeDkiCeeeDkjCeeeDkkCeeeDklCeeeDkmCeeeDknCeeeDl0CeeeDl1CeeeDl2CeeeDl3CeeeDl4CeeeDl5CeeeDl6Ce15Dl7Ce15Dl8CeeeDl9CfffDlaCf9aDlbCf9aDlcCfffDldCeeeDleCe15DlfCe15DlgCeeeDlhCeeeDliCeeeDljCeeeDlkCeeeDllCeeeDlmCeeeDlnCeeeDm0CeeeDm1CeeeDm2CeeeDm3CeeeDm4CeeeDm5CeeeDm6Ce15Dm7Cf9bDm8CeeeDm9CeeeDmaCeeeDmbCeeeDmcCeeeDmdCeeeDmeCf47DmfCe15DmgCeeeDmhCeeeDmiCeeeDmjCeeeDmkCeeeDmlCeeeDmmCeeeDmnCeeeDn0CeeeDn1CeeeDn2CeeeDn3CeeeDn4CeeeDn5CeeeDn6CeeeDn7CeeeDn8CeeeDn9CeeeDnaCeeeDnbCeeeDncCeeeDndCeeeDneCeeeDnfCeeeDngCeeeDnhCeeeDniCeeeDnjCeeeDnkCeeeDnlCeeeDnmCeeeDnn" {
 	//	get pref
-	constrast_pref = call("ij.Prefs.get","Contrast.icon","Active channel");
-	//	Action depending on prefs, default is Active channel.
+	constrast_pref = call("ij.Prefs.get","Contrast.icon","All channels");
+	//	Action depending on prefs, default is All channel.
 	if (constrast_pref == "Active channel")	{
-	Reset_contrast();
+		Reset_contrast();
 	}
 	if (constrast_pref == "All channels")	{
-	run("Auto-contrast on all channels");
+		run("Auto-contrast on all channels");
 	}
 }
 
@@ -48,17 +91,28 @@ macro "Popup Menu" {
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
-Menu for Splitview tools and help
+Menu for SplitView tools and help
 ----------------------------------------------------------------------------------------------------------------------*/
-var zCmds = newMenu("Splitview tools Menu Tool",
-	newArray("Colored squared Splitview [S]","Grayscaled linear Splitview[p]","Special Splitview","About Splitview"));
-macro"Splitview tools Menu Tool - N55C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0dD0eD10D11D12D13D14D15D16D19D1dD1eD20D21D22D23D24D25D26D27D2dD2eD30D31D33D35D3dD3eD40D43D4dD4eD50D52D53D5dD5eD60D61D6dD6eD9bD9eDa0Da1Da2Da3Da5Da6DadDaeDb0Db1Db2Db3Db6Db7Db8Db9DbaDbbDbdDbeDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDcbDcdDceDe0De1De2De3De4De5De6De7De8De9DeaDebDedDeeC000D17D1bD32D34D41D51D90D91D9dDa9DaaDabDb4Db5C82aD28D29D36D37D3aD45D54D63D72D81D82D83D8aD8eD94D99C010D5bC0eeC101D18D1aD2bD3bD42D44D62D70D7dD92Da4Da8Cf0fC523D8bCfffD0cD1cD2cD3cD46D47D4cD55D56D57D58D5cD65D66D67D68D6cD75D76D77D7cD8cD9cDacDbcDccDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDecC000Ce0eD38D4aD5aD6aD73D7aD95D96D97D98C023D6bD7bCfcfD64D74C404D2aD4bD71D7eD80D8dD93D9aDa7Cf4fD39D48D49D59D69D78D79D84D85D86D87D88D89Cee0Bf0C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0dD0eD10D11D12D13D14D15D16D1bD1dD1eD20D21D22D23D24D2bD2dD2eD30D31D32D33D3bD3dD3eD40D41D42D43D4bD4dD4eD50D51D5bD5dD5eD60D68D6dD6eD70D71D72D73D77D78D79D7aD7dD7eD80D81D82D83D84D86D87D88D89D8aD8bD8dD8eD90D91D92D93D94D95D96D97D98D99D9aD9bD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDadDaeC000C82aC010D18D19D2aD3aD4aD5aD76C0eeD35D36D37D38D44D45D46D47D48D54D55D56D57D64D65D66C101Cf0fC523CfffD0cD1cD2cD3cD4cD5cD6cD7cD8cD9cDacC000D17D1aD52D61D62D69D6aD6bD7bD85Ce0eC023D25D26D27D28D29D34D39D49D53D58D59D63D67D74D75CfcfC404Cf4fCee0B0fC000D00D01D02D03D04D05D06D07D08D09D0aD10D11D14D18D19D1aD20D21D22D28D29D2aD30D31D39D3aD40D41D48D49D4aD50D57D58D59D5aD60D66D67D68D69D70D71D74D75D76D77D78D79D80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC000D12D13D15D38D6aD72D7aC82aC010D16D17D27D51D61D73C0eeC101Cf0fC523D23D26D32D37D47D56D62D65CfffC000Ce0eC023CfcfC404Cf4fCee0D24D25D33D34D35D36D42D43D44D45D46D52D53D54D55D63D64Nf0C000D00D01D02D03D05D06D07D08D09D0aD10D11D12D13D14D15D17D1aD20D21D22D23D24D25D31D32D33D3aD41D4aD50D51D5aD6aD7aD89D8aD99Da0Da1Da2Da3Da9DaaDb0Db1Db3Db4Db5Db6Db7Db8Db9DbaDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDe0De1De2De3De4De5De6De7De8De9DeaC000D16D19D29D2aD30D40D42D60D9aDa7Da8Db2C82aD27D35D38D43D48D52D68D70D80D81D88D92D96D97C010C0eeC101D04D18D39D59D69D90Da4Da5Da6Cf0fD37D44D45D46D47D53D54D55D56D57D62D63D64D65D66D67D72D73D74D75D76D77D82D83D84D85C523CfffDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaC000Ce0eD36D58D71D78D86D87D93D94D95C023CfcfC404D26D28D34D49D61D79D91D98Cf4fCee0"{
-	cmd = getArgument();
-	if (cmd=="Colored squared Splitview [S]")	Splitview(1,1,0);
-	if (cmd=="Grayscaled linear Splitview[p]")	Splitview(0,0,0);
-	if (cmd=="Special Splitview")				getSplitviewPref();
-	if (cmd=="About Splitview") run("About Splitview");
+// var zCmds = newMenu("SplitView tools Menu Tool",
+// 	newArray("Colored squared SplitView [S]","Grayscaled linear SplitView[p]","Special SplitView","About SplitView"));
+// macro"SplitView tools Menu Tool - N55C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0dD0eD10D11D12D13D14D15D16D19D1dD1eD20D21D22D23D24D25D26D27D2dD2eD30D31D33D35D3dD3eD40D43D4dD4eD50D52D53D5dD5eD60D61D6dD6eD9bD9eDa0Da1Da2Da3Da5Da6DadDaeDb0Db1Db2Db3Db6Db7Db8Db9DbaDbbDbdDbeDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDcbDcdDceDe0De1De2De3De4De5De6De7De8De9DeaDebDedDeeC000D17D1bD32D34D41D51D90D91D9dDa9DaaDabDb4Db5C82aD28D29D36D37D3aD45D54D63D72D81D82D83D8aD8eD94D99C010D5bC0eeC101D18D1aD2bD3bD42D44D62D70D7dD92Da4Da8Cf0fC523D8bCfffD0cD1cD2cD3cD46D47D4cD55D56D57D58D5cD65D66D67D68D6cD75D76D77D7cD8cD9cDacDbcDccDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDecC000Ce0eD38D4aD5aD6aD73D7aD95D96D97D98C023D6bD7bCfcfD64D74C404D2aD4bD71D7eD80D8dD93D9aDa7Cf4fD39D48D49D59D69D78D79D84D85D86D87D88D89Cee0Bf0C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0dD0eD10D11D12D13D14D15D16D1bD1dD1eD20D21D22D23D24D2bD2dD2eD30D31D32D33D3bD3dD3eD40D41D42D43D4bD4dD4eD50D51D5bD5dD5eD60D68D6dD6eD70D71D72D73D77D78D79D7aD7dD7eD80D81D82D83D84D86D87D88D89D8aD8bD8dD8eD90D91D92D93D94D95D96D97D98D99D9aD9bD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDadDaeC000C82aC010D18D19D2aD3aD4aD5aD76C0eeD35D36D37D38D44D45D46D47D48D54D55D56D57D64D65D66C101Cf0fC523CfffD0cD1cD2cD3cD4cD5cD6cD7cD8cD9cDacC000D17D1aD52D61D62D69D6aD6bD7bD85Ce0eC023D25D26D27D28D29D34D39D49D53D58D59D63D67D74D75CfcfC404Cf4fCee0B0fC000D00D01D02D03D04D05D06D07D08D09D0aD10D11D14D18D19D1aD20D21D22D28D29D2aD30D31D39D3aD40D41D48D49D4aD50D57D58D59D5aD60D66D67D68D69D70D71D74D75D76D77D78D79D80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC000D12D13D15D38D6aD72D7aC82aC010D16D17D27D51D61D73C0eeC101Cf0fC523D23D26D32D37D47D56D62D65CfffC000Ce0eC023CfcfC404Cf4fCee0D24D25D33D34D35D36D42D43D44D45D46D52D53D54D55D63D64Nf0C000D00D01D02D03D05D06D07D08D09D0aD10D11D12D13D14D15D17D1aD20D21D22D23D24D25D31D32D33D3aD41D4aD50D51D5aD6aD7aD89D8aD99Da0Da1Da2Da3Da9DaaDb0Db1Db3Db4Db5Db6Db7Db8Db9DbaDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDe0De1De2De3De4De5De6De7De8De9DeaC000D16D19D29D2aD30D40D42D60D9aDa7Da8Db2C82aD27D35D38D43D48D52D68D70D80D81D88D92D96D97C010C0eeC101D04D18D39D59D69D90Da4Da5Da6Cf0fD37D44D45D46D47D53D54D55D56D57D62D63D64D65D66D67D72D73D74D75D76D77D82D83D84D85C523CfffDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaC000Ce0eD36D58D71D78D86D87D93D94D95C023CfcfC404D26D28D34D49D61D79D91D98Cf4fCee0"{
+// 	cmd = getArgument();
+// 	if (cmd=="Colored squared SplitView [S]")	SplitView(1,1,0);
+// 	if (cmd=="Grayscaled linear SplitView[p]")	SplitView(0,0,0);
+// 	if (cmd=="Special SplitView")				getSplitViewPrefs();
+// 	if (cmd=="About SplitView") run("About SplitView");
+// }
+
+/*----------------------------------------------------------------------------------------------------------------------
+SplitView action tool with options dialog
+----------------------------------------------------------------------------------------------------------------------*/
+macro "SplitView Action Tool (right click for help) - N55C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0dD0eD10D11D12D13D14D15D16D19D1dD1eD20D21D22D23D24D25D26D27D2dD2eD30D31D33D35D3dD3eD40D43D4dD4eD50D52D53D5dD5eD60D61D6dD6eD9bD9eDa0Da1Da2Da3Da5Da6DadDaeDb0Db1Db2Db3Db6Db7Db8Db9DbaDbbDbdDbeDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDcbDcdDceDe0De1De2De3De4De5De6De7De8De9DeaDebDedDeeC000D17D1bD32D34D41D51D90D91D9dDa9DaaDabDb4Db5C82aD28D29D36D37D3aD45D54D63D72D81D82D83D8aD8eD94D99C010D5bC0eeC101D18D1aD2bD3bD42D44D62D70D7dD92Da4Da8Cf0fC523D8bCfffD0cD1cD2cD3cD46D47D4cD55D56D57D58D5cD65D66D67D68D6cD75D76D77D7cD8cD9cDacDbcDccDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaDdbDdcDddDdeDecC000Ce0eD38D4aD5aD6aD73D7aD95D96D97D98C023D6bD7bCfcfD64D74C404D2aD4bD71D7eD80D8dD93D9aDa7Cf4fD39D48D49D59D69D78D79D84D85D86D87D88D89Cee0Bf0C000D00D01D02D03D04D05D06D07D08D09D0aD0bD0dD0eD10D11D12D13D14D15D16D1bD1dD1eD20D21D22D23D24D2bD2dD2eD30D31D32D33D3bD3dD3eD40D41D42D43D4bD4dD4eD50D51D5bD5dD5eD60D68D6dD6eD70D71D72D73D77D78D79D7aD7dD7eD80D81D82D83D84D86D87D88D89D8aD8bD8dD8eD90D91D92D93D94D95D96D97D98D99D9aD9bD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDadDaeC000C82aC010D18D19D2aD3aD4aD5aD76C0eeD35D36D37D38D44D45D46D47D48D54D55D56D57D64D65D66C101Cf0fC523CfffD0cD1cD2cD3cD4cD5cD6cD7cD8cD9cDacC000D17D1aD52D61D62D69D6aD6bD7bD85Ce0eC023D25D26D27D28D29D34D39D49D53D58D59D63D67D74D75CfcfC404Cf4fCee0B0fC000D00D01D02D03D04D05D06D07D08D09D0aD10D11D14D18D19D1aD20D21D22D28D29D2aD30D31D39D3aD40D41D48D49D4aD50D57D58D59D5aD60D66D67D68D69D70D71D74D75D76D77D78D79D80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaC000D12D13D15D38D6aD72D7aC82aC010D16D17D27D51D61D73C0eeC101Cf0fC523D23D26D32D37D47D56D62D65CfffC000Ce0eC023CfcfC404Cf4fCee0D24D25D33D34D35D36D42D43D44D45D46D52D53D54D55D63D64Nf0C000D00D01D02D03D05D06D07D08D09D0aD10D11D12D13D14D15D17D1aD20D21D22D23D24D25D31D32D33D3aD41D4aD50D51D5aD6aD7aD89D8aD99Da0Da1Da2Da3Da9DaaDb0Db1Db3Db4Db5Db6Db7Db8Db9DbaDc0Dc1Dc2Dc3Dc4Dc5Dc6Dc7Dc8Dc9DcaDe0De1De2De3De4De5De6De7De8De9DeaC000D16D19D29D2aD30D40D42D60D9aDa7Da8Db2C82aD27D35D38D43D48D52D68D70D80D81D88D92D96D97C010C0eeC101D04D18D39D59D69D90Da4Da5Da6Cf0fD37D44D45D46D47D53D54D55D56D57D62D63D64D65D66D67D72D73D74D75D76D77D82D83D84D85C523CfffDd0Dd1Dd2Dd3Dd4Dd5Dd6Dd7Dd8Dd9DdaC000Ce0eD36D58D71D78D86D87D93D94D95C023CfcfC404D26D28D34D49D61D79D91D98Cf4fCee0"{
+	getSplitViewPrefs();
 }
+macro "SplitView Action Tool (right click for help) Options"{
+	run("About SplitView");
+}
+
 
 /*----------------------------------------------------------------------------------------------------------------------
 This menu is for macro tools that acts on all opened images
@@ -73,26 +127,26 @@ macro"All opened images tools Menu Tool - N55C000D0dD0eD1dD1eD2dD3dD3eD4dD4eD59D
 /*----------------------------------------------------------------------------------------------------------------------
 This menu is for macro tools to make a "false gamma" applied on LUTs
 ----------------------------------------------------------------------------------------------------------------------*/
-var gammaLUTmenu = newMenu("Gamma LUT Menu Tool",
-	newArray("Set gammaLUT on active channel","Try gammaLUT on active channel","Set same GammaLUT on all channels", "Set gammaLUT on all images"));
-macro "Gamma LUT Menu Tool - N55C000D39D3aD3bD3cD3dD3eD47D48D49D4aD4bD4cD4dD4eD56D57D58D59D5aD5bD5cD5dD5eD65D66D67D68D69D6aD6bD6cD6dD6eD74D75D76D77D78D79D7aD7bD7cD7dD7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD93D94D95D96D99D9aD9bD9cD9dD9eDa3Da4Da5Da9DaaDabDacDadDaeDb3Db4Db5Db6DbbDbcDbdDbeDc3Dc4Dc5Dc6Dc7Dd3Dd4Dd5Dd6Dd7Dd8Dd9De3De4De5De6De7De8De9DeaC888C000D98Da6DdaCfffD00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD10D11D12D13D14D15D16D17D18D19D1aD1bD1cD1dD1eD20D21D22D23D24D25D26D27D28D30D31D32D33D34D35D36D40D41D42D43D44D50D51D52D53D60D61D62D63D70D71D72D80D81D82D90D91Da0Da1Db0Db1Db8Dc0Dc1Dd0Dd1De0De1CcccD92C444D46DbaCbbbD29C333D2bD2eCfffD45D54Da7DcaDdeC666CaaaDecC222D83CeeeC666D2aDdcCcccDb7DddC444Dc2Dd2C777Da8DcdDedC999D37C111D2cD2dD38CdddC555Db2Dc8DceDe2CbbbDb9Dc9C333D55DdbDebC777CaaaD73D97DccCeeeDcbC888Da2C999C111DeeC555D64CdddBf0C000D03D04D05D06D0dD0eD13D14D15D16D1bD1cD1dD1eD24D25D26D27D28D29D2aD2bD2cD2dD2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD45D46D47D48D49D4aD4bD4cD4dD4eD56D57D58D59D5aD5bD5cD5dD5eD67D68D69D6aD6bD6cD6dD6eD79D7aD7bD7cD7dD7eC888C000CfffD00D01D10D11D20D21D22D30D31D32D40D41D42D43D50D51D52D53D54D60D61D62D63D64D65D70D71D72D73D74D75D76D80D81D82D83D84D85D86D87D88D90D91D92D93D94D95D96D97D98D99D9aD9bD9cD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCcccD77C444D78CbbbD09C333CfffC666D19D8bCaaaD08C222CeeeD89C666D55D8eCcccD33C444D23C777D44C999D17D18D8aC111D0cCdddD0aC555CbbbC333C777CaaaCeeeC888D66C999D02D07D0bC111D1aC555D8cD8dCdddD12B0fC000D00D01D02D03D04D05D06D07D10D11D12D13D14D15D16D17D20D21D22D23D24D25D26D30D31D32D33D34D35D36D40D41D42D43D44D45D50D51D52D53D54D60D61D62D63D70D71C888C000CfffD09D0aD19D1aD28D29D2aD38D39D3aD47D48D49D4aD56D57D58D59D5aD65D66D67D68D69D6aD74D75D76D77D78D79D7aD82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCcccC444CbbbD37C333CfffC666D64CaaaC222D27CeeeC666D46CcccD18C444C777C999C111CdddC555CbbbD73C333D72C777D08CaaaCeeeC888C999D80C111C555D55CdddD81Nf0C000D30D31D40D41D42D43D50D51D52D53D54D60D61D62D63D64D65D70D71D72D73D74D75D76D80D81D82D83D84D85D86D90D91D92D93D94D95D96D97Da0Da1Da2Da5Da6Da7Db0Db6Db7Dc6Dc7Dd6Dd7De5De6De7C888D33Dd5C000De0CfffD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D15D16D17D18D19D1aD23D24D25D26D27D28D29D2aD34D35D36D37D38D39D3aD46D47D48D49D4aD57D58D59D5aD67D68D69D6aD78D79D7aD88D89D8aD99D9aDa9DaaDb4Db9DbaDc9DcaDd9DdaDe9DeaCcccDb2C444De4CbbbD98Dc0C333De1De2CfffD22Db3Dc1Dc4Dd1Dd3Dd4C666Da8Dc3CaaaC222D55Dc8Dd8CeeeC666D20CcccC444De8C777C999Db5C111D87Da3CdddC555Db1CbbbC333D44D66Db8C777CaaaD21Dc2CeeeD45D56Dc5Dd0C888C999D77C111D32Da4C555De3CdddDd2"{
-	cmd = getArgument();
-	if (cmd=="set gammaLUT on active channel") askGammaLUT();
-	if (cmd=="try gammaLUT on active channel") run("tryGammaLUT");
-	if (cmd=="set same GammaLUT on all channels") run("gammaLUT on all channels");
-	if (cmd=="set gammaLUT on all images") run("gammaLUT on all images");
-}
+// var gammaLUTmenu = newMenu("Gamma LUT Menu Tool",
+// 	newArray("Set gammaLUT on active channel","Try gammaLUT on active channel","Set same GammaLUT on all channels", "Set gammaLUT on all images"));
+// macro "Gamma LUT Menu Tool - N55C000D39D3aD3bD3cD3dD3eD47D48D49D4aD4bD4cD4dD4eD56D57D58D59D5aD5bD5cD5dD5eD65D66D67D68D69D6aD6bD6cD6dD6eD74D75D76D77D78D79D7aD7bD7cD7dD7eD84D85D86D87D88D89D8aD8bD8cD8dD8eD93D94D95D96D99D9aD9bD9cD9dD9eDa3Da4Da5Da9DaaDabDacDadDaeDb3Db4Db5Db6DbbDbcDbdDbeDc3Dc4Dc5Dc6Dc7Dd3Dd4Dd5Dd6Dd7Dd8Dd9De3De4De5De6De7De8De9DeaC888C000D98Da6DdaCfffD00D01D02D03D04D05D06D07D08D09D0aD0bD0cD0dD0eD10D11D12D13D14D15D16D17D18D19D1aD1bD1cD1dD1eD20D21D22D23D24D25D26D27D28D30D31D32D33D34D35D36D40D41D42D43D44D50D51D52D53D60D61D62D63D70D71D72D80D81D82D90D91Da0Da1Db0Db1Db8Dc0Dc1Dd0Dd1De0De1CcccD92C444D46DbaCbbbD29C333D2bD2eCfffD45D54Da7DcaDdeC666CaaaDecC222D83CeeeC666D2aDdcCcccDb7DddC444Dc2Dd2C777Da8DcdDedC999D37C111D2cD2dD38CdddC555Db2Dc8DceDe2CbbbDb9Dc9C333D55DdbDebC777CaaaD73D97DccCeeeDcbC888Da2C999C111DeeC555D64CdddBf0C000D03D04D05D06D0dD0eD13D14D15D16D1bD1cD1dD1eD24D25D26D27D28D29D2aD2bD2cD2dD2eD34D35D36D37D38D39D3aD3bD3cD3dD3eD45D46D47D48D49D4aD4bD4cD4dD4eD56D57D58D59D5aD5bD5cD5dD5eD67D68D69D6aD6bD6cD6dD6eD79D7aD7bD7cD7dD7eC888C000CfffD00D01D10D11D20D21D22D30D31D32D40D41D42D43D50D51D52D53D54D60D61D62D63D64D65D70D71D72D73D74D75D76D80D81D82D83D84D85D86D87D88D90D91D92D93D94D95D96D97D98D99D9aD9bD9cD9dD9eDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaDabDacDadDaeCcccD77C444D78CbbbD09C333CfffC666D19D8bCaaaD08C222CeeeD89C666D55D8eCcccD33C444D23C777D44C999D17D18D8aC111D0cCdddD0aC555CbbbC333C777CaaaCeeeC888D66C999D02D07D0bC111D1aC555D8cD8dCdddD12B0fC000D00D01D02D03D04D05D06D07D10D11D12D13D14D15D16D17D20D21D22D23D24D25D26D30D31D32D33D34D35D36D40D41D42D43D44D45D50D51D52D53D54D60D61D62D63D70D71C888C000CfffD09D0aD19D1aD28D29D2aD38D39D3aD47D48D49D4aD56D57D58D59D5aD65D66D67D68D69D6aD74D75D76D77D78D79D7aD82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCcccC444CbbbD37C333CfffC666D64CaaaC222D27CeeeC666D46CcccD18C444C777C999C111CdddC555CbbbD73C333D72C777D08CaaaCeeeC888C999D80C111C555D55CdddD81Nf0C000D30D31D40D41D42D43D50D51D52D53D54D60D61D62D63D64D65D70D71D72D73D74D75D76D80D81D82D83D84D85D86D90D91D92D93D94D95D96D97Da0Da1Da2Da5Da6Da7Db0Db6Db7Dc6Dc7Dd6Dd7De5De6De7C888D33Dd5C000De0CfffD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D15D16D17D18D19D1aD23D24D25D26D27D28D29D2aD34D35D36D37D38D39D3aD46D47D48D49D4aD57D58D59D5aD67D68D69D6aD78D79D7aD88D89D8aD99D9aDa9DaaDb4Db9DbaDc9DcaDd9DdaDe9DeaCcccDb2C444De4CbbbD98Dc0C333De1De2CfffD22Db3Dc1Dc4Dd1Dd3Dd4C666Da8Dc3CaaaC222D55Dc8Dd8CeeeC666D20CcccC444De8C777C999Db5C111D87Da3CdddC555Db1CbbbC333D44D66Db8C777CaaaD21Dc2CeeeD45D56Dc5Dd0C888C999D77C111D32Da4C555De3CdddDd2"{
+// 	cmd = getArgument();
+// 	if (cmd=="set gammaLUT on active channel") askGammaLUT();
+// 	if (cmd=="try gammaLUT on active channel") run("tryGammaLUT");
+// 	if (cmd=="set same GammaLUT on all channels") run("gammaLUT on all channels");
+// 	if (cmd=="set gammaLUT on all images") run("gammaLUT on all images");
+// }
 
 /*----------------------------------------------------------------------------------------------------------------------
 Settings to customize actions of some tools
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Settings Action Tool - N55C000D2cD2dD3cD3dD47D48D4bD4cD4dD4eD57D58D59D5aD5bD5cD5dD5eD68D69D6aD6bD6cD6dD6eD78D79D7aD87D88D89D95D96D97D98D99Da6Da7Da8Da9Db7Db8Db9Dc8Dc9DcaDd8Dd9DdaDdbDdcDddDdeDe7De8De9DeaDebDecDedDeeCeeeD0cD0dD27D28D29D2aD36D45D55D66D75D8cD8dD93D9bD9eDa3Dc5De5CeeeD00D01D02D03D04D05D06D07D08D09D0aD0bD0eD10D11D12D13D14D15D16D17D18D19D1aD20D21D22D23D24D25D26D30D31D32D33D34D35D40D41D42D43D44D50D51D52D53D54D60D61D62D63D64D65D70D71D72D73D74D76D80D81D82D83D8bD8eD90D91D92D9cD9dDa0Da1Da2DacDadDb0Db1Db2Db3Db4Dc0Dc1Dc2Dc3Dc4Dd0Dd1Dd2Dd3Dd4Dd5Dd6De0De1De2De3De4CfffDabDaeDbcDbdDc6C111D49D4aDbaDcbDceCfffC000Da5C999D2bD2eD37D85C555D38D67Db6Dc7DccDcdCcccD39Da4Db5DbbDbeC333D3bD77D7bD7eD8aCbbbD46D56D94C777D1cD1dD9aDaaCdddD1bD1eD3aD84C222D3eD86Dd7CaaaD7cD7dDe6Bf0C000D08D0bD0cD0dD0eD1cD1dD2cD2dD37D38D39D46D4aD4bD56D5aD66D6aD6bD77D78D79D87CeeeD05D54D5cD6dD7dD8cDa7Da9DaaCeeeD00D01D02D03D04D10D11D12D13D14D15D16D20D21D22D23D24D30D31D32D33D3eD40D41D42D43D4eD50D51D52D53D5dD5eD60D61D62D63D6eD70D71D72D73D7eD80D81D82D83D84D8dD8eD90D91D92D93D94D95D98D9bD9cD9dD9eDa0Da1Da2Da3Da4Da5Da6Da8DabDacDadDaeCfffD25D4dD85D8bC111D07D45D47D7aD89CfffD58C000D27D29C999D26D3cD48D97C555D0aD1bD1eD28D36D49D69D75D7bCcccD06D19D44D59C333D09D5bD76D88D8aCbbbD18D2bD3dD68D7cD86D99D9aC777D2aD3bD55D57CdddD1aD34D64D74D96C222D3aD65D67CaaaD17D2eD35D4cD6cB0fC000D02CeeeD05D14D20D22D23CeeeD06D07D08D09D0aD11D15D16D17D18D19D1aD21D24D25D26D27D28D29D2aD30D31D32D33D34D35D36D37D38D39D3aD40D41D42D43D44D45D46D47D48D49D4aD50D51D52D53D54D55D56D57D58D59D5aD60D61D62D63D64D65D66D67D68D69D6aD70D71D72D73D74D75D76D77D78D79D7aD80D81D82D83D84D85D86D87D88D89D8aD90D91D92D93D94D95D96D97D98D99D9aDa0Da1Da2Da3Da4Da5Da6Da7Da8Da9DaaCfffD10C111D03CfffC000C999C555D00CcccD04C333CbbbD13C777CdddC222D01CaaaD12Nf0C000D42D43D50D51D52D53D60D61D62D70D71D72D81D82D83D91D92D93D94D95Da1Da2Da3Da4Da5Db1Db2Db3Dc0Dc1Dc2Dd0Dd1Dd2De0De1De2De3CeeeD20D22D23D34D45D55D64D75D97Da7Dc5De5CeeeD00D01D02D03D04D05D06D07D08D09D0aD10D11D12D13D14D15D16D17D18D19D1aD21D24D25D26D27D28D29D2aD35D36D37D38D39D3aD46D47D48D49D4aD56D57D58D59D5aD65D66D67D68D69D6aD74D76D77D78D79D7aD86D87D88D89D8aD98D99D9aDa8Da9DaaDb6Db7Db8Db9DbaDc6Dc7Dc8Dc9DcaDd4Dd5Dd6Dd7Dd8Dd9DdaDe6De7De8De9DeaCfffDc4C111D40D41Db0CfffC000C999D33D85C555Db4Dc3CcccC333D63D73D80Dd3CbbbD54D96Da6Db5De4C777D32D90Da0CdddD30D31C222D84CaaaD44" {
 	Dialog.createNonBlocking("Visualization tools parameters");
-	Dialog.addChoice("For auto-contrast icon tool, adjust on :", newArray("Active channel","All channels"), "Active channel");
-	Dialog.addChoice("[Q] key shortcut tool,switch between composite and :", newArray("Color","Grayscale","All modes"), "Color");
+	Dialog.addChoice("For auto-contrast icon tool, adjust on :", newArray("Active channel","All channels"), call("ij.Prefs.set","Contrast.icon", "Active channel"));
+	Dialog.addChoice("[Q] key shortcut tool,switch between composite and :", newArray("Color","Grayscale","All modes"), call("ij.Prefs.get","Composite.switch","Color"));
 	Dialog.show();
-	call("ij.Prefs.set","Contrast.icon",Dialog.getChoice());
-	call("ij.Prefs.set","Composite.switch",Dialog.getChoice());
+	call("ij.Prefs.set","Contrast.icon", Dialog.getChoice());
+	call("ij.Prefs.set","Composite.switch", Dialog.getChoice());
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -105,277 +159,322 @@ macro"About Menu Tool - B31C000T2e20?"{
 	if (cmd!="-") run(cmd);
 }
 
-
 /*
 //Built-in Stack and LUT menus 
  macro "Stacks Menu Built-in Tool" {}
  macro "LUT Menu Built-in Tool" {}
 */
 
+//ispired by Robert Haase Windows Position tool from clij
+function multiTool(){ //avec menu "que faire avec le middle click? **"
+	/*
+	* flags or modificator value of getCursorLoc :
+	* shift = 1;
+	* ctrl = 2;
+	* cmd = 4;...
+	* alt = 8; middle click is just 8
+	* leftClick = 16;
+	* so flag of leftclick + alt = 24
+	*/
+	getCursorLoc(x, y, z, flags);
+
+	//setup : 
+	setupUndo();
+	call("ij.plugin.frame.ContrastAdjuster.update");
+
+	if (flags>=32) flags -= 32; //remove "cursor in selection" flag
+	if (flags == 8) { //middle mouse button
+		if (middleClick) eval(String.paste);
+		else compositeSwitch();
+	}
+	if (flags == 16) {
+		if 			(mainTool=="Move Windows")       moveWindows();
+		else if (mainTool=="Contrast Adjuster")      liveContrast();
+		else if (mainTool=="Gamma on LUT")           liveGamma();
+		else if (mainTool=="slice / frame scroll")   liveScroll();
+	}
+	if (flags == 17)				liveContrast();		// shift + long click
+	if (flags == 18 || flags == 20)	liveGamma();		// ctrl(or cmd) + long click
+	if (flags == 24)				liveScroll();		// alt + long click
+	updateDisplay();
+}
+
+function moveWindows() {//laggy on Macs I don't know why..
+	getCursorLoc(x2, y2, z2, flags2);
+	zoom = getZoom();
+	getCursorLoc(last_x, last_y, z, flags);
+	while (flags == 16) {
+		getLocationAndSize(window_x, window_y, null, null);
+		getCursorLoc(x, y, z, flags);
+		if (x != last_x || y != last_y) {
+			window_x = window_x - (x2 * zoom - x * zoom);
+			window_y = window_y - (y2 * zoom - y * zoom);
+			setLocation(window_x, window_y);
+			getCursorLoc(last_x, last_y, z, flags);
+		}
+	wait(10);
+	}
+}
+
+function liveContrast() {	
+	if (bitDepth() == 24) exit;
+	resetMinAndMax();
+	getMinAndMax(min, max);
+	getCursorLoc(x, y, z, flags);
+	if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+	while (flags >= 16) {			
+		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(area_x, area_y, width, height);
+		if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+		newMax = ((x - area_x) / width) * max;
+		newMin = ((height - (y - area_y)) / height) * max / 2;
+		if (newMax < 0) newMax = 0;
+		if (newMin < 0) newMin = 0;
+		if (newMin > newMax) newMin = newMax;
+		setMinAndMax(newMin, newMax);
+		call("ij.plugin.frame.ContrastAdjuster.update");
+		wait(10);
+	}
+}
+
+function liveGamma(){
+	setBatchMode(1);
+	getLut(reds, greens, blues);
+	setColor("white");
+	setFont("SansSerif", Image.height/20, "bold antialiased");
+	getCursorLoc(x, y, z, flags);
+	if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+	while (flags >= 16) {
+		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(area_x, area_y, width, height);
+		if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+		gamma = d2s(((x - area_x) / width) * 2, 2); if (gamma < 0) gamma=0;
+		gammaLUT(gamma, reds, greens, blues);
+		Overlay.remove;
+		Overlay.drawString("gamma = " + gamma, Image.height / 30, Image.height / 20);
+		Overlay.show;
+		wait(10);
+	}
+	setBatchMode(0);
+	Overlay.remove;
+	run("Select None");
+}
+
+function liveScroll() {
+	getDimensions(width, height, channels, slices, frames);
+	if(slices==1 && frames==1) exit;
+	getCursorLoc(x, y, z, flags);
+	if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+	while(flags >= 16) {
+		getCursorLoc(x, y, z, flags);
+		getDisplayedArea(area_x, area_y, width, height);
+		if (flags >= 32) flags -= 32; //remove "cursor in selection" flag
+		if (frames > 1) Stack.setFrame(((x - area_x) / width) * frames);
+		else 			Stack.setSlice(((x - area_x) / width) * slices);
+		// if (live_autoContrast) run("Enhance Contrast", "saturated=&enhance_rate");
+		call("ij.plugin.frame.ContrastAdjuster.update");
+		wait(10);
+	}
+}
+
 /*----------------------------------------------------------------------------------------------------------------------
+SplitView : 
 For multichannel visualization, 5 channel max
 This macro will generate a montage of composite and splited channels in one RGB Image
 You can still navigate through slices or frames. 
-Note : the Splitview image size can be heavy on big hyperstacks due to RGB conversion
+Note : the SplitView image size can be heavy on big hyperstacks due to RGB conversion
 Advice : draw a selection before running Spliview, the produced montage will be croped
-The new version can ask tu user channel labels and add it in the Splitview with color corresponding to each LUTs.
+The new version can ask tu user channel labels and add it in the SplitView with color corresponding to each LUTs.
 ----------------------------------------------------------------------------------------------------------------------*/
-var Provided_Channels = newArray(5);
-var Fontsize = 30;
-var Ch = newArray(1);
-var chan = 1;
+var borderSize = 0;
+var channels = 1;
+var channel_Labels = newArray("GFP","RFP","DNA","Other","DIC");
+var font_Size = 30;
+var tile = newArray(1);
 
 /*----------------------------------------------------------------------------------------------------------------------
-main Splitview function : aguments works as follow :
-color : 0 = grayscale , 1 = color 
-style : 0 = linear montage , 1 = squared montage , 2 = vertical montage
+main SplitView function : aguments works as follow :
+color_Mode : 0 = grayscale , 1 = color 
+montage_Style : 0 = linear montage , 1 = squared montage , 2 = vertical montage
 labels : 0 = no , 1 = yes.
 ----------------------------------------------------------------------------------------------------------------------*/
-function Splitview(color,style,labels) {
-	if(nImages==0)exit("No opened image");
+function SplitView(color_Mode, montage_Style, labels) {
 	setBatchMode(true);
 	title = getTitle();
-	Setup_Splitview(color,labels);//up until split
-	if(style==1)	squareView();
-	if(style==0)	linearView();
-	if(style==2)	verticalView();
-	rename(title + " Splitview");
+	saveSettings;
+	Setup_SplitView(color_Mode, labels);//up until split
+	restoreSettings;
+	if (montage_Style==1)	squareView();
+	if (montage_Style==0)	linearView();
+	if (montage_Style==2)	verticalView();
+	rename(title + " SplitView");
+	setOption("Changes", 0);
 	setBatchMode("exit and display");
-}
-//error Check, duplicate, split, convert, label
-function Setup_Splitview(color,labels){ 
-	getDimensions(w, h, channels, slices, frames);
-	if (channels == 1) exit("only one channel");
-	if (channels > 5) exit("5 channels max");
-	run("Duplicate...", "title=image duplicate");
-	if ((slices>1)&&(frames==1)) { 
-		frames = slices; slices = 1;
-		Stack.setDimensions(channels, slices, frames); } 
-	Ch = newArray(channels);
-	chan = channels;
-	getDimensions(w, h, channels, slices, frames);
-	Fontsize=h/9;
-	run("Duplicate...", "title=split duplicate");
-	run("Split Channels");
-	selectWindow("image");
-	Stack.setDisplayMode("composite");
-	if(labels){
-		getLabels();
-		setColor("white");
-		setFont("SansSerif", Fontsize, "bold antialiased");
-		Overlay.drawString("Merge",h/20,Fontsize);
-		Overlay.show;
-		run("Flatten","stack");
-		rename("overlay"); Ch[0] = getTitle();
-		close("image");
-		for (i = 1; i <= chan; i++) {
-			selectWindow("C"+i+"-split");
-			id = getImageID();
-			getLut(r, g, b);
-			setColor(r[255], g[255], b[255]);
-			if(!color)run("Grays");
-			Overlay.drawString(Provided_Channels[i-1],h/20,Fontsize);
+
+	function Setup_SplitView(color_Mode, labels){
+		setBackgroundColor(255,255,255);
+		getDimensions(width, heigth, channels, Z, T);
+		if (channels == 1) exit("only one channel");
+		if (channels > 5)  exit("5 channels max");
+		run("Duplicate...", "title=image duplicate");
+		if ((Z>1)&&(T==1)) {T=Z; Z=1; Stack.setDimensions(channels,Z,T); } 
+		tile = newArray(channels+1);	channels = channels;
+		getDimensions(width,heigth,channels,Z,T);
+		font_Size = heigth/9;
+		run("Duplicate...", "title=split duplicate");
+		run("Split Channels");
+		selectWindow("image");
+		Stack.setDisplayMode("composite")
+
+		if (labels) {
+			getLabels();
+			setColor("white");
+			setFont("SansSerif", font_Size, "bold antialiased");
+			Overlay.drawString("Merge",heigth/20,font_Size);
 			Overlay.show;
-			if(slices*frames>1)run("Flatten","stack");
-			else {
-				run("Flatten");
-				rename("C"+i+"-split");
-				selectImage(id);
-				close();	}
-			Ch[i]=getTitle();
+			run("Flatten","stack");
+			rename("overlay"); tile[0] = getTitle();
+			if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
+			close("image");
+
+			for (i = 1; i <= channels; i++) {
+				selectWindow("C"+i+"-split");
+				id = getImageID();
+				getLut(reds, greens, blues); 
+				setColor(reds[255], greens[255], blues[255]);
+				if (!color_Mode) {
+					getMinAndMax(min, max); 
+					run("Grays"); 
+					setMinAndMax(min, max);
+				}
+				Overlay.drawString(channel_Labels[i-1],heigth/20,font_Size);
+				Overlay.show;
+				if (Z*T>1) run("Flatten","stack");
+				else { run("Flatten"); selectImage(id);	close();	}
+				if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
+				tile[i]=getTitle();
+			}
+		}
+		else {
+			run("RGB Color", "frames"); 
+			rename("overlay"); tile[0] = getTitle(); 
+			if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
+			close("image");
+			for (i = 1; i <= channels; i++) {
+				selectWindow("C"+i+"-split");
+				if (!color_Mode) {
+					getMinAndMax(min, max); 
+					run("Grays"); 
+					setMinAndMax(min, max);
+				}
+				run("RGB Color", "slices"); 
+				if(borderSize != 0) run("Canvas Size...", "width="+Image.width+borderSize+" height="+Image.height+borderSize+" position=Center");
+				tile[i]=getTitle();	
+			}
 		}
 	}
-	else{
-		run("RGB Color", "frames");
-		rename("overlay"); Ch[0] = getTitle(); 
-		close("image");
-		for (i = 1; i <= chan; i++) {
-			selectWindow("C"+i+"-split");
-			if(!color)run("Grays");
-			run("RGB Color", "slices"); 
-			Ch[i]=getTitle();	}
+	
+	function getLabels(){
+		Dialog.createNonBlocking("Provide channel names");
+		for (a = 0; a < 5; a++) Dialog.addString("Channel "+a+1, channel_Labels[a],12); 
+		Dialog.addNumber("Font size", font_Size);
+		Dialog.show();
+		for (i = 0; i < 5; i++) {channel_Labels[i] = Dialog.getString();}
+		font_Size = Dialog.getNumber();
+	}
+	
+	function squareView(){
+										C1_C2 = 	Combine_Horizontally(tile[1],tile[2]);
+		if (channels==2||channels==4)	C1_C2_Ov =	Combine_Horizontally(C1_C2,tile[0]);
+		if (channels==3){				C3_Ov = 	Combine_Horizontally(tile[3],tile[0]); 		Combine_Vertically(C1_C2,C3_Ov);}
+		if (channels>=4)				C3_C4 =		Combine_Horizontally(tile[3],tile[4]);
+		if (channels==4)							Combine_Vertically(C1_C2_Ov,C3_C4);
+		if (channels==5){				C1234 = 	Combine_Vertically(C1_C2,C3_C4); 	C5_Ov =	Combine_Vertically(tile[5],tile[0]); Combine_Horizontally(C1234,C5_Ov);}
+	}
+	
+	function linearView(){
+							C1_C2 = Combine_Horizontally(tile[1],tile[2]);
+		if (channels==2)			Combine_Horizontally(C1_C2,tile[0]);
+		if (channels==3){	C3_Ov = Combine_Horizontally(tile[3],tile[0]);			Combine_Horizontally(C1_C2,C3_Ov);}
+		if (channels>=4){	C3_C4 =	Combine_Horizontally(tile[3],tile[4]);	C1234 =	Combine_Horizontally(C1_C2,C3_C4);}
+		if (channels==4)			Combine_Horizontally(C1234,tile[0]);
+		if (channels==5){	C5_Ov = Combine_Horizontally(tile[5],tile[0]);			Combine_Horizontally(C1234,C5_Ov);}
+	}
+	
+	function verticalView(){
+							C1_C2 = Combine_Vertically(tile[1],tile[2]);
+		if (channels==2)			Combine_Vertically(C1_C2,tile[0]);
+		if (channels==3){	C3_Ov = Combine_Vertically(tile[3],tile[0]);		Combine_Vertically(C1_C2,C3_Ov);}
+		if (channels>=4){	C3_C4 =	Combine_Vertically(tile[3],tile[4]);C1234 = Combine_Vertically(C1_C2,C3_C4);}
+		if (channels==4)			Combine_Vertically(C1234,tile[0]);
+		if (channels==5){	C5_Ov = Combine_Vertically(tile[5],tile[0]);		Combine_Vertically(C1234,C5_Ov);}
+	}
+	
+	function Combine_Horizontally(stack1,stack2){ //returns result image title *.*
+		run("Combine...", "stack1=&stack1 stack2=&stack2");
+		rename(stack1+"_"+stack2);
+		return getTitle();
+	}
+	
+	function Combine_Vertically(stack1,stack2){
+		run("Combine...", "stack1=&stack1 stack2=&stack2 combine"); //vertically
+		rename(stack1+"_"+stack2);
+		return getTitle();
 	}
 }
 
-function getSplitviewPref(){
-	Dialog.createNonBlocking("Labeled Prefs");
-	Dialog.addMessage("choose your Splitview");
-	Dialog.addRadioButtonGroup("Color style", newArray("Colored","Grayscale"), 1, 3, "Colored");
-	Dialog.addRadioButtonGroup("Montage style", newArray("Linear","Square","Vertical"), 1, 3, "Linear");
-	Dialog.addCheckbox("label channels?", 0);
+var	color_Mode = "Colored";
+var	montage_Style = "Linear";
+var	labels = 0;
+function getSplitViewPrefs(){
+	if (nImages == 0) exit();
+	Dialog.createNonBlocking("SplitView");
+	Dialog.addRadioButtonGroup("color Mode", newArray("Colored","Grayscale"), 1, 3, color_Mode);
+	Dialog.addRadioButtonGroup("Montage Style", newArray("Linear","Square","Vertical"), 1, 3, montage_Style);
+	Dialog.addSlider("border size", 0, 50, Image.height * 0.02);
+	Dialog.addCheckbox("label channels?", labels);
 	Dialog.show();
-	color = Dialog.getRadioButton();
-	style = Dialog.getRadioButton();
+	color_Mode = Dialog.getRadioButton();
+	montage_Style = Dialog.getRadioButton();
+	borderSize = Dialog.getNumber();
 	labels = Dialog.getCheckbox();
-	if	   (color=="Colored"  &&style=="Linear")  { if(labels) Splitview(1,0,1); else Splitview(1,0,0); }
-	else if(color=="Grayscale"&&style=="Linear")  { if(labels) Splitview(0,0,1); else Splitview(0,0,0); }
-	else if(color=="Colored"  &&style=="Square")  { if(labels) Splitview(1,1,1); else Splitview(1,1,0); }
-	else if(color=="Grayscale"&&style=="Square")  { if(labels) Splitview(0,1,1); else Splitview(0,1,0); }
-	else if(color=="Colored"  &&style=="Vertical"){ if(labels) Splitview(1,2,1); else Splitview(1,2,0); }
-	else if(color=="Grayscale"&&style=="Vertical"){ if(labels) Splitview(0,2,1); else Splitview(0,2,0); }
+	if	   (color_Mode=="Colored"   && montage_Style=="Linear")  { if(labels) SplitView(1,0,1); else SplitView(1,0,0); }
+	else if(color_Mode=="Grayscale" && montage_Style=="Linear")  { if(labels) SplitView(0,0,1); else SplitView(0,0,0); }
+	else if(color_Mode=="Colored"   && montage_Style=="Square")  { if(labels) SplitView(1,1,1); else SplitView(1,1,0); }
+	else if(color_Mode=="Grayscale" && montage_Style=="Square")  { if(labels) SplitView(0,1,1); else SplitView(0,1,0); }
+	else if(color_Mode=="Colored"   && montage_Style=="Vertical"){ if(labels) SplitView(1,2,1); else SplitView(1,2,0); }
+	else if(color_Mode=="Grayscale" && montage_Style=="Vertical"){ if(labels) SplitView(0,2,1); else SplitView(0,2,0); }
 }
 
-function getLabels(){
-	Dialog.createNonBlocking("Provide channel names");
-	Dialog.addString("Channel1", "GFP",		12);
-	Dialog.addString("Channel2", "RFP",		12);
-	Dialog.addString("Channel3", "dRFP",	12);
-	Dialog.addString("Channel4", "DAPI",	12);
-	Dialog.addString("Channel5", "DIC",		12);
-	Dialog.addNumber("Font size", Fontsize);
-	Dialog.show();
-	for (k = 0; k < 5; k++) {
-		Provided_Channels[k] = Dialog.getString(); 
-		}
-	Fontsize = Dialog.getNumber();
-}
-
-function squareView(){
-							C1_C2 = Combine_Horizontally(Ch[1],Ch[2]);
-	if (chan==2||chan==4)C1_C2_Ov =	Combine_Horizontally(C1_C2,Ch[0]);
-	if (chan==3){			C3_Ov = Combine_Horizontally(Ch[3],Ch[0]); 			Combine_Vertically(C1_C2,C3_Ov);}
-	if (chan>=4)			C3_C4 =	Combine_Horizontally(Ch[3],Ch[4]);
-	if (chan==4)					Combine_Vertically(C1_C2_Ov,C3_C4);
-	if (chan==5){			C1234 = Combine_Vertically(C1_C2,C3_C4); C5_Ov  = 	Combine_Vertically(Ch[5],Ch[0]); Combine_Horizontally(C1234,C5_Ov);}
-}
-
-function linearView(){
-	C1_C2 = 				Combine_Horizontally(Ch[1],Ch[2]);
-	if (chan==2)			Combine_Horizontally(C1_C2,Ch[0]);
-	if (chan==3){	C3_Ov = Combine_Horizontally(Ch[3],Ch[0]);			Combine_Horizontally(C1_C2,C3_Ov);}
-	if (chan>=4){	C3_C4 =	Combine_Horizontally(Ch[3],Ch[4]);	C1234 =	Combine_Horizontally(C1_C2,C3_C4);}
-	if (chan==4)			Combine_Horizontally(C1234,Ch[0]);
-	if (chan==5){	C5_Ov = Combine_Horizontally(Ch[5],Ch[0]);			Combine_Horizontally(C1234,C5_Ov);}
-}
-
-function verticalView(){
-					C1_C2 = Combine_Vertically(Ch[1],Ch[2]);
-	if (chan==2)			Combine_Vertically(C1_C2,Ch[0]);
-	if (chan==3){	C3_Ov = Combine_Vertically(Ch[3],Ch[0]);		Combine_Vertically(C1_C2,C3_Ov);}
-	if (chan>=4){	C3_C4 =	Combine_Vertically(Ch[3],Ch[4]); C1234= Combine_Vertically(C1_C2,C3_C4);}
-	if (chan==4)			Combine_Vertically(C1234,Ch[0]);
-	if (chan==5){	C5_Ov = Combine_Vertically(Ch[5],Ch[0]);		Combine_Vertically(C1234,C5_Ov);}
-}
-
-function Combine_Horizontally(stack1,stack2){ //returns result image title *.*
-	run("Combine...", "stack1=&stack1 stack2=&stack2");
-	rename(stack1+"_"+stack2);
-	return getTitle();
-}
-
-function Combine_Vertically(stack1,stack2){
-	run("Combine...", "stack1=&stack1 stack2=&stack2 combine"); //vertically
-	rename(stack1+"_"+stack2);
-	return getTitle();
-}
-
-macro "About Splitview" {
-	showMessage("About Splitview", "Splitview is a visualisation tool for multichannel images with up to 5 channels:\n"
+macro "About SplitView" {
+	showMessage("About SplitView", "SplitView is a visualisation tool for multichannel images with up to 5 channels:\n"
 		+"This macro will generate a montage of composite and separated channels in one RGB Image.\n"
 		+"You can still navigate through slices or frames.\n \n"
-		+"Note: the Splitview image size can be heavy on big hyperstacks due to RGB conversion.\n"
+		+"Note: the SplitView image size can be heavy on big hyperstacks due to RGB conversion.\n"
 		+"Advice: draw a smaller selection before running Spliview, the produced montage will be croped.\n"
-		+"With 'Special Splitview', you can choose between color and greyscale for separate channels \n"
-		+"and different montage styles. Also when label is checked, a dialog will ask for channel labels \n"
-		+"and add it in the Splitview with color corresponding to each LUTs.");
+		+"You can choose between color and greyscale for separate channels \n"
+		+"and different montage layouts. Also when label is checked, a dialog will ask for channel labels \n"
+		+"and add it in the SplitView with color corresponding to each LUTs.");
 }
 
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 //gamma correction applied on active LUT, no modification of pixels data .
-function gammaLUT(gamma,Reds, Greens, Blues) { //adapted from John Lim https://imagej.nih.gov/ij/macros/Gamma_LUT.txt
-	if ( bitDepth() == 24) exit("this is an RGB image"); 
-	Input=newArray(256); Output=newArray(256);
-	for (i=0;i<256;i++){ Input[i]=i; }
-	for(i=0;i<256;i++){ Output[i]=pow(Input[i],gamma); }
-	scale = 255/Output[255];
-	for(i=0;i<256;i++){
-		Output[i]=	  round(Output[i]*scale);//Limit the ouput to 8bit range
-		if(Output[i]<0) 	Output[i]=0;
-		if(Output[i]>255) 	Output[i]=255;	}
-	New_Reds=newArray(256); New_Greens=newArray(256); New_Blues=newArray(256);
-	for(i=0;i<256;i++){
-		j=Output[i];
-		New_Reds[i]=Reds[j];
-		New_Greens[i]=Greens[j];
-		New_Blues[i]=Blues[j];	}
-	setLut(New_Reds, New_Greens, New_Blues);
-}
-
-//set gammaLUT on active channel
-function setGammaLUT(gamma){
-	if(nImages==0)exit("No opened image"); if ( bitDepth() == 24) exit("this is an RGB image");
-	getLut(Reds, Greens, Blues);
-	gammaLUT(gamma,Reds, Greens, Blues);
-}
-
-//get gammaLUT from user and set on active channel
-function askGammaLUT(){
-	if(nImages==0)exit("No opened image"); if ( bitDepth() == 24) exit("this is an RGB image"); 
-	Dialog.create("gammaLUT");
-	Dialog.addSlider("gamma",0,5,0.5);
-	Dialog.show();
-	getLut(Reds, Greens, Blues);
-	gammaLUT(Dialog.getNumber(),Reds, Greens, Blues);
-}
-
-//set gammaLUT on all channels
-function setAllchannelsgammaLUTs(gamma) {
-	if(nImages==0)exit("No opened image"); if ( bitDepth() == 24) exit("this is an RGB image"); 
-	getDimensions(width, height, channels, slices, frames);
-	if(channels>1)	{
-		for (A = 1; A <= channels; A++) {
-		Stack.setChannel(A);
-		setGammaLUT(gamma);	}	}
-	else {setGammaLUT(gamma);	}
-}
-
-//set gammaLUT on active channel and ask if good until user is happy
-macro "tryGammaLUT"{
-	if(nImages==0)exit("No opened image"); if(bitDepth()==24) exit("this is an RGB image"); 
-	getLut(Reds, Greens, Blues);
-	preview = 1;
-	while ( preview ){
-		Dialog.create("Gamma LUT");
-		Dialog.addSlider("gamma", 0, 5, 0.5);
-		Dialog.addCheckbox("preview", 1);
-		Dialog.show();
-		gamma = Dialog.getNumber();
-		preview = Dialog.getCheckbox();
-		gammaLUT(gamma,Reds, Greens, Blues);
-		if (!preview) exit;
-		Dialog.create("Continue?");
-		Dialog.addMessage("Is this a good look?");
-		Dialog.addRadioButtonGroup("Good?", newArray("No","Yes"), 1, 2, "No");
-		Dialog.show();
-		good = Dialog.getRadioButton();
-		if (good=="Yes") preview = 0;
-		if (good=="No")  setLut(Reds, Greens, Blues);
+function gammaLUT(gamma, reds, greens, blues) {
+	gammaReds = newArray(256); 
+	gammaGreens = newArray(256); 
+	gammaBlues = newArray(256); 
+	gam = newArray(256);
+	for (i=0; i<256; i++) gam[i] = pow(i, gamma);
+	scale = 255 / gam[255];
+	for (i=0; i<256; i++) gam[i] = round(gam[i] * scale);
+	for (i=0; i<256; i++) {
+		j = gam[i];
+		gammaReds[i] = reds[j];
+		gammaGreens[i] = greens[j];
+		gammaBlues[i] = blues[j];
 	}
-}
-
-macro"gammaLUT on all channels"{
-	if(nImages==0)exit("No opened image"); if ( bitDepth() == 24) exit("this is an RGB image"); 
-	Dialog.create("gammaLUT");
-	Dialog.addSlider("gamma",0,5,0.5);
-	Dialog.show();
-	setAllchannelsgammaLUTs(Dialog.getNumber());
-}
-
-macro"gammaLUT on all images"{
-	Dialog.create("gammaLUT");
-	Dialog.addSlider("gamma",0,5,0.5);
-	Dialog.show();
-	setEveryGammaLUTs(Dialog.getNumber());
-}
-//set gammaLUT on all channels of all images
-function setEveryGammaLUTs(gamma){
-	if(nImages==0)exit("No opened image");
-	Get_all_IDs();
-	for (b=0; b<all_IDs.length; b++) {
-		selectImage(all_IDs[b]);
-		if (bitDepth()!=24) setAllchannelsgammaLUTs(gamma);
-	}
+	setLut(gammaReds, gammaGreens, gammaBlues);
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -385,47 +484,47 @@ var all_IDs = newArray(1);
 
 function Get_all_IDs() {
 	all_IDs = newArray(nImages);
-	for (a=0; a<nImages ; a++) {		
-		selectImage(a+1);
-		all_IDs[a] = getImageID(); 
+	for (i=0; i<nImages ; i++) {		
+		selectImage(i+1);
+		all_IDs[i] = getImageID(); 
 	} 
 }
 
 /*----------------------------------------------------------------------------------------------------------------------
 functions for Set LUTs macros
 ----------------------------------------------------------------------------------------------------------------------*/
-var chosen_LUTs = newArray(7);
+var chosen_LUTs = newArray("Cyan","Magenta","Yellow","Grays","Red","Green","Blue");
 
 function Get_LUTs(){
 	LUT_list = newArray("Cyan","Magenta","Yellow","Grays","Red","Green","Blue");//Add you favorite or personnal LUTs in the list to see them in dialog.
 	Dialog.create("Set all LUTs");
-	Dialog.addChoice("LUT 1", LUT_list, "Cyan"); //the last argument is the default selection
-	Dialog.addChoice("LUT 2", LUT_list, "Magenta");
-	Dialog.addChoice("LUT 3", LUT_list, "Yellow");
-	Dialog.addChoice("LUT 4", LUT_list, "Grays");
-	Dialog.addChoice("LUT 5", LUT_list, "Green");
-	Dialog.addChoice("LUT 6", LUT_list, "Grays");
-	Dialog.addChoice("LUT 7", LUT_list, "Grays");
+	for(i = 0; i < 7; i++) Dialog.addChoice("LUT " + (i+1), LUT_list, chosen_LUTs[i]);
 	Dialog.show();
-	for (k = 0; k < 7; k++) {
-	chosen_LUTs[k] = Dialog.getChoice(); 
-	}
+	for (i = 0; i < 7; i++) chosen_LUTs[i] = Dialog.getChoice();
 }
 
 function Set_LUTs(){
-	if(nImages==0)exit("No opened image");
+	if(nImages == 0) exit("No opened image");
 	getDimensions(width, height, channels, slices, frames);
 	if(channels > 1){
 		Stack.setDisplayMode("composite");
-		for (A = 1; A <= channels; A++) {
-		Stack.setChannel(A);
-		run(chosen_LUTs[A-1]);	
+		for (i = 1; i <= channels; i++) {
+		Stack.setChannel(i);
+		run(chosen_LUTs[i-1]);	
 		}
 	}
 	else {run(chosen_LUTs[0]);}	//need "if / else" because Stack.setChannel doesn't work on single dimension images
 } 
 
-
+function SetAllLUTs(){
+	setBatchMode(1);
+	Get_all_IDs();
+	for (i=0; i<nImages; i++) {
+		selectImage(all_IDs[i]);
+		if (bitDepth() != 24) Set_LUTs();	
+	}
+	setBatchMode(0);
+}
 /*----------------------------------------------------------------------------------------------------------------------
 "Set LUTs" applies the chosen LUTs from left to right. Up to five channels.
 "Set all LUTs" does the same with all opened images. Images don't need to have same number of channels.
@@ -439,8 +538,8 @@ macro "Set all LUTs"{
 	Get_LUTs();
 	setBatchMode(1);
 	Get_all_IDs();
-	for (b=0; b<nImages; b++) {
-		selectImage(all_IDs[b]);
+	for (i=0; i<nImages; i++) {
+		selectImage(all_IDs[i]);
 		if ( bitDepth() != 24) Set_LUTs();	//only if not RGB
 	}
 	setBatchMode(0);
@@ -464,24 +563,24 @@ function Reset_contrast() {
 	}
 	else if (slices*frames == 1 && channels>1)	{
 		Stack.getPosition(channel, slice, frame);
-		run("Duplicate...", "title=A duplicate channels=&channel"); //duplicate only the active channel and name it "A"
+		run("Duplicate...", "title=temp duplicate channels=&channel"); //duplicate only the active channel and name it "A"
 		getStatistics(area, mean, min, max, std, histogram);
 	}
 	else {
 		Stack.getPosition(channel, slice, frame);
-		run("Duplicate...", "title=A duplicate channels=&channel");
+		run("Duplicate...", "title=temp duplicate channels=&channel");
 		Stack.getStatistics(voxelCount, mean, min, max, stdDev);
 	}
 	selectImage(id);
 	setMinAndMax(min, max);
-	close("A");
+	close("temp");
 	setBatchMode(0);
 }
 /*----------------------------------------------------------------------------------------------------------------------
 the getStatistics function only works on single dimension image
 the Stack.getStatistics get the min max of entire stacks, but when multiple channels it returns one min max based on all dimensions.
-That's why this macro function had to be adapted to the 3 cases of,
- 1 slice / 1 color ; 1slice / multiple colors ; multiple slices / multiple colors
+Hence, this macro function had to be adapted to the 3 cases of,
+1 slice / 1 color ; 1slice / multiple colors ; multiple slices / multiple colors
 ----------------------------------------------------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------------------------------------------------
@@ -491,8 +590,8 @@ macro "Auto-contrast on all channels" {
 	if (nImages<1) exit('No image');
     getDimensions(width, height, channels, slices, frames);
 	if(channels>1)	{
-		for (A = 1; A <= channels; A++) {
-			Stack.setChannel(A);
+		for (i = 1; i <= channels; i++) {
+			Stack.setChannel(i);
 			Reset_contrast();
 		}
 	}
@@ -504,9 +603,9 @@ Reset the contrast window between min and max on all opened images, for all stac
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Reset all contrasts" {
 	Get_all_IDs();
-	for (b=0; b<all_IDs.length; b++) {
-		showProgress(b/all_IDs.length);
-		selectImage(all_IDs[b]);
+	for (i=0; i<all_IDs.length; i++) {
+		showProgress(i/all_IDs.length);
+		selectImage(all_IDs[i]);
 	    run("Auto-contrast on all channels");	
 	}
 }
@@ -534,8 +633,8 @@ macro "Maximum Z project all" {
 	if (nImages<1) exit('no image');
 	setBatchMode(1);
 	Get_all_IDs();
-	for (b=0; b<all_IDs.length; b++) {
-		selectImage(all_IDs[b]);
+	for (i=0; i<all_IDs.length; i++) {
+		selectImage(all_IDs[i]);
 		getDimensions(w, h, channels, slices, frames);
 		if (channels*slices*frames!=1) run("Z Project...", "projection=[Max Intensity] all"); 
 	}
@@ -553,12 +652,12 @@ Add a line of text on top of the image "info" metadata.
 The text is saved in image file.
 ----------------------------------------------------------------------------------------------------------------------*/
 macro "Add note in info"{
-	A=getMetadata("Info");
+	metadata = getMetadata("Info");
 	Dialog.create("Add comment on top of info file([i] key)");
 	Dialog.addString("note :", "", 100);
 	Dialog.show();
-	Comment = Dialog.getString();
-	setMetadata("Info", Comment+'\n\n'+A);
+	comment = Dialog.getString();
+	setMetadata("Info", comment + '\n\n' + metadata);
 	run("Show Info...");
 }
 
@@ -567,7 +666,8 @@ numerical key shortcuts for most common LUTs, [n7] to [n9] are free.
 by maintaining space key, you can toggle channels from 1 to 7.
 alt key will do the same on all opened images.
 ----------------------------------------------------------------------------------------------------------------------*/
-macro "Gray 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); else if (isKeyDown("alt")) toggleAllchannels(1); else run("Grays");	}
+macro "Gray 	[n0]"{ run("Grays");	}
+macro "Blue 	[n1]"{ if (isKeyDown("space")) toggleChannel(1); else if (isKeyDown("alt")) toggleAllchannels(1); else run("Blue");	}
 macro "Green 	[n2]"{ if (isKeyDown("space")) toggleChannel(2); else if (isKeyDown("alt")) toggleAllchannels(2); else run("Green");	}
 macro "Red 		[n3]"{ if (isKeyDown("space")) toggleChannel(3); else if (isKeyDown("alt")) toggleAllchannels(3); else run("Red");		}
 macro "Cyan 	[n4]"{ if (isKeyDown("space")) toggleChannel(4); else if (isKeyDown("alt")) toggleAllchannels(4); else run("Cyan");		}
@@ -586,8 +686,8 @@ function toggleChannel(i) { //modified from J.Mutterer
 
 function toggleAllchannels(i) {
 	setBatchMode(1);
-	for (b=0; b<nImages; b++) {
-		selectImage(b+1);
+	for (i=0; i<nImages; i++) {
+		selectImage(i+1);
 		toggleChannel(i);	}
 	showStatus("Channel"+i+" toggled");
 	setBatchMode("exit and display");
@@ -596,23 +696,26 @@ function toggleAllchannels(i) {
 /*----------------------------------------------------------------------------------------------------------------------
 key shortcuts for what I think are frequently used commands with opened images. Plus some usefull tricks.
 ----------------------------------------------------------------------------------------------------------------------*/
-macro "auto				[A]"	{if(nImages!=0)run("Enhance Contrast", "saturated=0.3");} //almost same as "Auto" button in Brightness tool.
-macro "Tile				[E]"	{if(nImages!=0)run("Tile");}
+macro "my default LUTs  [1]"	{if(isKeyDown("space")) SetAllLUTs(); else Set_LUTs(); }
+macro "auto				[A]"	{if(nImages!=0) run("Enhance Contrast", "saturated=0.3");} //almost same as "Auto" button in Brightness tool.
+macro "Tile				[E]"	{if(nImages!=0) run("Tile");}
 macro "Contrast all Ch	[R]"	{run("Auto-contrast on all channels");}
-macro "Auto contrast	[r]"	{Reset_contrast();} // On active channel only
+macro "Auto contrast	[r]"	{if(isKeyDown("space")) run("Install...","install=["+getDirectory("macros")+"/StartupMacros.fiji.ijm]"); else Reset_contrast();} // On active channel only
 macro "sync				[y]"	{run("Synchronize Windows");}
-macro "Arrange			[q]"	{if(nImages!=0)run("Arrange Channels...");}
-macro "Splitview color	[S]"	{Splitview(1,1,0);}
-macro "Splitview grey	[p]"	{Splitview(0,0,0);}
-macro "Split Channel	[d]"	{if(nImages!=0)run("Split Channels");}
-macro "duplicate		[D]"	{if(nImages!=0)run("Duplicate...", "duplicate");}
-macro "Merge			[M]"	{if(nImages!=0)run("Merge Channels...");}
-macro "Z Project		[g]"	{if(nImages!=0)run("Z Project...");}
-macro "Max				[G]"	{if(nImages!=0)run("Z Project...", "projection=[Max Intensity] all");}
+macro "Arrange			[q]"	{if(nImages!=0) run("Arrange Channels...");}
+macro "SplitView color	[S]"	{SplitView(1,1,0);}
+macro "SplitView grey	[p]"	{SplitView(0,0,0);}
+macro "Split Channel	[d]"	{if(nImages!=0) run("Split Channels");}
+macro "duplicate		[D]"	{if(nImages!=0) run("Duplicate...", "duplicate");}
+macro "Merge			[M]"	{if(nImages!=0) run("Merge Channels...");}
+macro "Z Project		[g]"	{if(nImages!=0) run("Z Project...");}
+macro "Max				[G]"	{if(nImages!=0) run("Z Project...", "projection=[Max Intensity] all");}
 macro "Save as tiff		[T]"	{saveAs("Tiff");}
 
-macro "composite switch [Q]" {
-	//	if no preferences : ask for it
+macro "composite switch [Q]" 	{compositeSwitch();}
+
+function compositeSwitch(){
+	//	if no preferences yet : ask for it
 	is_switch_pref = call("ij.Prefs.get","Composite.switch",0);
 	if (is_switch_pref == 0)	set_switch_pref(); 
 	//	error check
@@ -655,14 +758,18 @@ function set_switch_pref() { // for composite switch tool
 macro "About these tools" {
 	Dialog.createNonBlocking("Visualization Toolset description");
 	Dialog.addMessage("This toolset intends to help handling and visualization of multichannel images and stacks.\n"+
-	"None of these tools will modify the pixels of the images. Only the display.\n"+" \n"+
-	"Most will work on single or all opened images.\n"+
+	"None of these tools will modify the pixels of the images. Only the display.\n"+
 	"______________________________________________________________________________\n"+
-	"* Splitview : menu icon or press [S] (colored) or [p] (grayscale).\n"+
+	"* Multi Tool : \n"+
+	"            normal click to move freely images windows (double click on icon to set the main tool)\n"+
+	"            shift + drag to adjust min and max contrast\n"+
+	"            ctrl or cmd + drag to adjust gamma on the LUT, not on pixels\n"+
+	"            alt + drag to navigate slices or frames in stacks\n"+
+	"______________________________________________________________________________\n"+
+	"* SplitView : icon or press [S] (square colored) or [p] (linear grayscale).\n"+
 	"            Creates a RGB montage of composite and splited channels.\n"+
-	"            Grayscale Splitview is a linear montage grey channels + overlay.\n"+
 	"            You can still navigate through slices or frames.\n"+
-	"			 'Special Splitview' for parameters and labeled channels.\n"+
+	"            icon let you choose parameters and label channels.\n"+
 	"______________________________________________________________________________\n"+
 	"* Set image LUTs : Right click on the image and select 'Set LUTs':\n"+
 	"            Applies all chosen LUTs (false colors) to your multichannel image.\n"+
@@ -671,22 +778,20 @@ macro "About these tools" {
 	"            Especially usefull for stacks (but not restricted to),this macro\n"+
 	"            resets the min and max based on the entire stack so you can navigate\n"+
 	"            through slices without signal saturation.\n"+
-	"            Tip : if you have bright spots on your stack, draw a ROI.\n"+
+	"            Tip : if you have bright spots on your stack, draw a ROI first.\n"+
 	"______________________________________________________________________________\n"+
 	"* gammaLUT : Menu icon\n"+
-	"            This tool gives the same visual result than the Gamma of process/math\n"+
+	"            This tool gives the same visual result than the built-in gamma function\n"+
 	"            but only modifies the active LUT, without doing anything to pixels data.\n"+
-	"            So to reset the original constrasts, you just have to reset the LUT. \n"+
+	"            To reset the original LUT, you just have to apply it again. \n"+
 	"______________________________________________________________________________\n"+
 	"* Tools for all opended images : in the 'All images menu icon':\n"+
 	"           - Maximum Z project all : \n"+
 	"                    Run a maximal intensity projection on all opended stacks,\n"+
-	"                    then close the stacks and run 'Tile' to see all windows.\n"+
-	"                    Can be handy to get a quick overview of stacks content.\n"+
+	"                    and run 'Tile' to see all windows.\n"+
 	"           - Save all : \n"+
 	"                    Saves all opened images as Tiff in a specified directory.\n"+
-	"                    Be carefull : it will erase files with similar names with no warning.\n"+
-	"        ______________________________________________________________________________\n"+
+	"______________________________________________________________________________\n"+
 	"* a handy macro shortcut :\n"+
 	"      - [ Q ]   Quickly switch between Color and Composite mode on multichannel images.\n"+
 	"      via the Settings icon, you can choose to switch between grayscale and composite\n"+
@@ -704,14 +809,14 @@ macro "Keyboard shortcuts cheat sheet" {
 	"[ Q ]___switch color and composite mode\n"+
 	"[ R ]___Auto-contrast all channels\n"+
 	"[ r ]___Auto-contrast active channel\n"+
-	"[ S ]___Colored Splitview\n"+
-	"[ p ]___Grayscale Splitview\n"+
+	"[ S ]___Colored SplitView\n"+
+	"[ p ]___Grayscale SplitView\n"+
 	"____________________________________\n"+
 	"* Frequently used commands in Imagej: \n"+
-	"[ A ]___Run Enhance Contrast, saturated=0.3\n"+
-	"[ E ]___Tile : reorder windows to see all\n"+
+	"[ A ]___Run Enhance Contrast, saturated=0.3%\n"+
+	"[ E ]___Tile : arrange windows to see all\n"+
 	"[ y ]___Open the tool 'synchronize windows'\n"+
-	"[ q ]___Arrange channels order\n"+
+	"[ q ]___Change channels order\n"+
 	"[ d ]___Split Channels\n"+
 	"[ M ]___Merge channels\n"+
 	"[ D ]___Duplicate (all dimensions)\n"+
@@ -724,7 +829,8 @@ macro "Keyboard shortcuts cheat sheet" {
 macro "LUTs and channels shortcuts cheat sheet" {
 	Dialog.createNonBlocking("numerical keyboard shortcuts");
 	Dialog.addMessage("* Apply LUTs :\n"+
-	"[ 1 ]___Grayscale\n"+
+	"[ 0 ]___Grayscale\n"+
+	"[ 1 ]___Blue\n"+
 	"[ 2 ]___Green\n"+
 	"[ 3 ]___Red\n"+
 	"[ 4 ]___Cyan\n"+
@@ -742,16 +848,3 @@ macro "LUTs and channels shortcuts cheat sheet" {
 	"maintain ALT to act on all images",13);
 	Dialog.show();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
