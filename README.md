@@ -3,7 +3,7 @@
 This toolset intends to ease daily manipulation and visualization of multichannel images and stacks.
 
 * __Installation :__
-	- in Fiji, add the Visualisation Toolset update site in the updater
+	- in Fiji, add the [Visualisation Toolset](https://sites.imagej.net/VisualizationToolset/) update site in the updater
 	- For ImageJ, download this repository as .zip by clicking the green button "Code" and place the Visualization_toolset.ijm file in the toolset directory of your ImageJ or Fiji application. (ImageJ/Macros/toolsets)     
 	- You will now find the toolset in the "More Tools" menu of imageJ main window ( [>>] button ).     
 
@@ -30,8 +30,6 @@ Tools description :
 
 * __Set image LUTs__ : 
 	A dialog let you select LUTs for each channels and then apply them to your multichannel image. Also possible to set LUTs of all opened images.
-
-![image](https://github.com/kwolbachia/Visualization_toolset/blob/main/screenshots/Set_LUTs.png)
 
 * Some tools for all opended images :
 	
