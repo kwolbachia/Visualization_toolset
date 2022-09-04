@@ -1,6 +1,6 @@
 # Visualization_toolset
 
-This toolset intends to ease daily manipulation and visualization of multichannel images and stacks.
+This toolset intends to simplify daily manipulation and visualization of multichannel images and stacks.
 
 * __Installation :__
 	- in Fiji, add the [Visualisation Toolset](https://sites.imagej.net/VisualizationToolset/) update site in the updater
