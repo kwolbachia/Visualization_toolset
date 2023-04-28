@@ -12,3 +12,5 @@ This Toolset requires to activate the IBMP-CNRS (for Action Bars) and BioVoxxel 
 You can find documentation in [This website](https://kwolby.notion.site/kwolby/Visualization-Toolset-4e0a4f2834494ba5a4865a99c6913323)
 
 Thanks to try out this toolset and please provide feedback, share your thoughts on how the toolset can be improved or expanded!
+
+![Image](screenshots/Viz_Toolset_snapshot.jpg)
