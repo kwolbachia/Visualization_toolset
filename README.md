@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/335788925.svg)](https://zenodo.org/badge/latestdoi/335788925)
+
 # Visualization Toolset
 
 This toolset is a collection of macros designed to make routine manipulation in ImageJ fast and convenient
