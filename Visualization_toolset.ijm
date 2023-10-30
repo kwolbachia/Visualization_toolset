@@ -1,34 +1,24 @@
 //Bundle of macros for image visualization and handling in ImageJ / Fiji
 //kevin.terretaz@gmail.com
 
-//1.0 070221
-//1.1 080221 forgotten adjustments + up to 7 Set LUTs
-//1.2 150221 bugs correction (Splitviews, Max all)
-//1.3 280221 add settings for composite switch and auto-contrast icon
+//1.0 210207
+//1.1 210208 forgotten adjustments + up to 7 Set LUTs
+//1.2 210215 bugs correction (Splitviews, Max all)
+//1.3 210228 add settings for composite switch and auto-contrast icon
 		  // add toggle channels shortcuts tools.
-//1.4 110421 gammaLUTs, better SplitView and all images channel toggle key
-//2.0 040722 remove gamma icon, add multiTool icon (with gammaLUT inside), add borders to SplitView
+//1.4 210411 gammaLUTs, better SplitView and all images channel toggle key
+//2.0 220704 remove gamma icon, add multiTool icon (with gammaLUT inside), add borders to SplitView
 //3.0 230428 Big refont, add action bars, new tools for the MultiTool and web documentation
+//3.1 251002 bug corrections, refactoring code and adding default border to splitviews
 
-/*This is free and unencumbered software released into the public domain.
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
+/*This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
+In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and
+successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 */
 
@@ -46,8 +36,8 @@ var NOICE_LUTs = 0;
 // For split_View
 var	COLOR_MODE = "Colored";
 var MONTAGE_STYLE = "Linear";
-var LABELS = 0;
-var BORDER_SIZE = 0;
+var LABELS = "No labels";
+var BORDER_SIZE = "Auto";
 var FONT_SIZE = 30;
 var CHANNEL_LABELS = newArray("GFP","RFP","DNA","Other","DIC");
 var TILES = newArray(1);
@@ -70,12 +60,6 @@ var TARGET_IMAGE_TITLE = "";
 // for Scale Bar Tool
 var REMOVE_SCALEBAR_TEXT = false; 
 
-// for counting tools
-var COUNT_LINE = 0;
-
-// for [f5]
-var DO_SCROLL_LOOP = false;
-
 // for multitool switch
 var LAST_TOOL = 0;
 
@@ -85,7 +69,7 @@ var ACTION_BAR_STRING = "";
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		MULTI TOOL
 //--------------------------------------------------------------------------------------------------------------------------------------
-macro "Multi Tool (double click to configure) - icon:viz_toolset_1.jpg" {
+macro "Multi Tool (double click to configure) - icon:viz_toolset_1.png" {
 	multi_Tool();
 }
 macro "Multi Tool (double click to configure) Options" {
@@ -131,7 +115,7 @@ macro "Popup Menu" {
 //--------------------------------------------------------------------------------------------------------------------------------------
 //		PREVIEW OPENER
 //--------------------------------------------------------------------------------------------------------------------------------------
-macro "Preview Opener Action Tool - icon:viz_toolset_2.jpg"{
+macro "Preview Opener Action Tool - icon:viz_toolset_2.png"{
 	if (!isOpen("Preview Opener.tif")) make_Preview_Opener();
 }
 
@@ -142,7 +126,7 @@ var Action_Bars_Menu = newMenu("Action Bars Menu Tool",
 	newArray("Main Macro Shortcuts",
 	"-", "Splitview Macros", "Numerical Keyboard Macros", "More Macros",
 	"-", "Online Help"));
-macro "Action Bars Menu Tool - icon:viz_toolset_3.jpg" {
+macro "Action Bars Menu Tool - icon:viz_toolset_3.png" {
 	command = getArgument();
 	if 		(command == "Main Macro Shortcuts")			show_All_Macros_Action_Bar();
 	else if (command == "SplitView Macros")				show_SplitView_Bar();
@@ -250,8 +234,8 @@ macro "[A]"	{
 }
 macro "[b]"	{
 	if (nImages()==0) exit();
-	if		(no_Alt_no_Space())		split_View(1,2,0); //vertical colored
-	else if (isKeyDown("space"))	split_View(0,2,0); //vertical grayscale
+	if		(no_Alt_no_Space())		split_View("Vertical", "Colored", "No labels");
+	else if (isKeyDown("space"))	split_View("Vertical", "Grayscale", "No labels");
 	else if (isKeyDown("alt"))		quick_Figure_Splitview("vertical");
 }
 macro "[B]"	{	
@@ -262,7 +246,7 @@ macro "[C]" {	run("Brightness/Contrast...");}
 
 macro "[d]"	{
 	if (nImages()==0) exit();
-	if		(no_Alt_no_Space())		{getDimensions(width, height, channels, slices, frames); if (channels>0) run("Split Channels"); else run("Stack to Images");}
+	if		(no_Alt_no_Space())		{getDimensions(width, height, channels, slices, frames); if (channels>1 || bitDepth()==24) run("Split Channels"); else run("Stack to Images");}
 	else if (isKeyDown("space"))	{run("Duplicate...", " "); string_To_Recorder("run(\"Duplicate...\", \" \");");}//slice
 	else if (isKeyDown("alt"))		duplicate_Channel();
 }
@@ -336,8 +320,8 @@ macro "[o]"	{
 }
 macro "[p]"	{
 	if (nImages()==0) exit();
-	if		(no_Alt_no_Space())		split_View(0,0,0); //linear grayscale
-	else if (isKeyDown("space"))	split_View(0,1,0); //squared grayscale
+	if		(no_Alt_no_Space())		split_View("Linear", "Grayscale", "No labels");
+	else if (isKeyDown("space"))	split_View("Square", "Grayscale", "No labels");
 	else if (isKeyDown("alt"))		quick_Figure_Splitview("linear");
 }
 macro "[Q]" 	{	composite_Switch();	}
@@ -354,8 +338,8 @@ macro "[r]"	{
 }
 macro "[S]"	{
 	if (nImages()==0) exit();
-	if		(no_Alt_no_Space())		split_View(1,1,0); //colored squared
-	else if (isKeyDown("space"))	split_View(1,0,0); //colored linear
+	if		(no_Alt_no_Space())		split_View("Square", "Colored", "No labels");
+	else if (isKeyDown("space"))	split_View("Linear", "Colored", "No labels");
 	else if (isKeyDown("alt"))		split_View_Dialog();
 }
 macro "[s]"	{
@@ -434,8 +418,8 @@ function quick_Figure_Splitview(linear_or_Vertical){
 	if (nImages()==0) exit();
 	getDimensions(width, height, channels, slices, frames);
 	BORDER_SIZE = minOf(height, width) * 0.02;
-	if (linear_or_Vertical == "linear") split_View(0,0,1);
-	else split_View(0,2,1);
+	if (linear_or_Vertical == "linear") split_View("Linear", "Grayscale", "Add labels");
+	else split_View("Vertical", "Grayscale", "Add labels");
 	run("Copy to System");
 }
 
@@ -821,13 +805,13 @@ function magic_Wand(){
 	}
 	if (flags == 16) { //left click
 		adjust_Tolerance();
-		if (ADD_TO_MANAGER)	roiManager("Add");
 	}
 	if (FIT_MODE != "None"){
 		run(FIT_MODE);
 		getSelectionCoordinates(xpoints, ypoints);
 		makeSelection(4, xpoints, ypoints);
 	}
+	if (ADD_TO_MANAGER)	roiManager("Add");
 	wait(30);
 }
 
@@ -940,8 +924,11 @@ function open_From_Preview_Opener() {
 //in their curent state.  Will close all but the montage.
 function make_Preview_Opener() {
 	if (nImages == 0) exit();
-	waitForUser("Make Preview Opener", "Creates a montage with snapshots of all opened images (virtual or not).\n" +
-	"This will close all but the montage. Are you sure?");
+	Dialog.createNonBlocking("Make Preview Opener");
+	Dialog.addMessage("Creates a montage with snapshots of all opened images (virtual or not).\n" +
+		"This will close all but the montage. Are you sure?");
+	Dialog.addHelp("https://kwolby.notion.site/Preview-Opener-581219eab9f748bc8269d0d8ffe9172d");
+	Dialog.show();
 	setBatchMode(1);
 	all_IDs = newArray(nImages);
 	paths_List = "";
@@ -1516,47 +1503,48 @@ function my_Tile() {
 
 function split_View_Dialog(){
 	if (nImages == 0) exit();
-	getDimensions(width, height, channels, slices, frames);
+	getSelectionBounds(x, y, width, height);
+	auto_border_size = round(minOf(height, width) * 0.02);
 	Dialog.createNonBlocking("split_View");
 	Dialog.addRadioButtonGroup("color Mode", newArray("Colored","Grayscale"), 1, 3, COLOR_MODE);
 	Dialog.addRadioButtonGroup("Montage Style", newArray("Linear","Square","Vertical"), 1, 3, MONTAGE_STYLE);
-	Dialog.addSlider("border size", 0, 50, round(minOf(height, width) * 0.02));
-	Dialog.addCheckbox("label channels?", LABELS);
+	Dialog.addSlider("border size", 0, 50, auto_border_size);
+	Dialog.addRadioButtonGroup("Add Labels?", newArray("Add labels","No labels"), 1, 3, LABELS);
 	Dialog.show();
 	COLOR_MODE = Dialog.getRadioButton();
 	MONTAGE_STYLE = Dialog.getRadioButton();
 	BORDER_SIZE = Dialog.getNumber();
-	LABELS = Dialog.getCheckbox();
-	if	    (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Linear")  { if (LABELS) split_View(1,0,1); else split_View(1,0,0); }
-	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Linear")  { if (LABELS) split_View(0,0,1); else split_View(0,0,0); }
-	else if (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Square")  { if (LABELS) split_View(1,1,1); else split_View(1,1,0); }
-	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Square")  { if (LABELS) split_View(0,1,1); else split_View(0,1,0); }
-	else if (COLOR_MODE == "Colored"   && MONTAGE_STYLE == "Vertical"){ if (LABELS) split_View(1,2,1); else split_View(1,2,0); }
-	else if (COLOR_MODE == "Grayscale" && MONTAGE_STYLE == "Vertical"){ if (LABELS) split_View(0,2,1); else split_View(0,2,0); }
+	LABELS = Dialog.getRadioButton();
+	split_View(MONTAGE_STYLE, COLOR_MODE, LABELS);
+	BORDER_SIZE = "Auto";
 }
 
-function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
-	// COLOR_MODE : 0 = grayscale , 1 = color 
-	// MONTAGE_STYLE : 0 = linear montage , 1 = squared montage , 2 = vertical montageage
-	// LABELS : 0 = no , 1 = yes.
+function split_View(MONTAGE_STYLE, COLOR_MODE, LABELS) {
+	// COLOR_MODE : "Grayscale" or "Colored" 
+	// MONTAGE_STYLE : "Linear","Square" or "Vertical"
+	// LABELS : "Add labels" or "No labels"
 	if (nImages()==0) exit();
 	setBatchMode(1);
 	title = getTitle();
+	// prepares TILES before montage :
 	saveSettings();
-	getDimensions(width, height, channels, slices, frames);
+	getDimensions(width, height, channels, slices, frames); 
 	Setup_SplitView(COLOR_MODE, LABELS);
 	restoreSettings();
-	if (MONTAGE_STYLE == 0)	linear_SplitView();
-	if (MONTAGE_STYLE == 1)	square_SplitView();
-	if (MONTAGE_STYLE == 2)	vertical_SplitView();
+	// Tiles assembly
+	if (MONTAGE_STYLE == "Linear")		linear_SplitView();
+	if (MONTAGE_STYLE == "Square")		square_SplitView();
+	if (MONTAGE_STYLE == "Vertical")	vertical_SplitView();
+	//output
 	unique_Rename(title + "_SplitView");
 	setOption("Changes", 0);
 	setBatchMode("exit and display");
 
 	function Setup_SplitView(COLOR_MODE, LABELS){
-		//prepare TILES before montage : 
+		// prepares TILES before montage : 
 		// duplicate twice for overlay and splitted channels
-		// convert to RGB with right colors, LABELS and borders
+		// convert to RGB with right colors, labels and borders
+		getDimensions(width, height, channels, slices, frames);
 		if (channels == 1) exit("only one channel");
 		if (channels > 5)  exit("5 channels max");
 		setBackgroundColor(255, 255, 255); //for white borders
@@ -1567,13 +1555,13 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 			Stack.setDimensions(channels, slices, frames); 
 		} 
 		TILES = newArray(channels + 1);
-		getDimensions(width, height, channels, slices, frames); 
+		if (BORDER_SIZE == "Auto") BORDER_SIZE = round(minOf(height, width) * 0.02);
 		FONT_SIZE = height / 9;
 		run("Duplicate...", "title=split duplicate");
 		run("Split Channels");
 		selectWindow("image");
 		Stack.setDisplayMode("composite")
-		if (LABELS) {
+		if (LABELS == "Add labels") {
 			get_Labels_Dialog();
 			setColor("white");
 			setFont("SansSerif", FONT_SIZE, "bold antialiased");
@@ -1589,7 +1577,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 				id = getImageID();
 				getLut(reds, greens, blues); 
 				setColor(reds[255], greens[255], blues[255]);
-				if (!COLOR_MODE) {
+				if (COLOR_MODE == "Grayscale") {
 					getMinAndMax(min, max); 
 					run("Grays"); 
 					setMinAndMax(min, max);
@@ -1614,7 +1602,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 			close("image");
 			for (i = 1; i <= channels; i++) {
 				selectWindow("C"+i+"-split");
-				if (!COLOR_MODE) {
+				if (COLOR_MODE == "Grayscale") {
 					getMinAndMax(min, max); 
 					run("Grays"); 
 					setMinAndMax(min, max);
@@ -1624,6 +1612,7 @@ function split_View(COLOR_MODE, MONTAGE_STYLE, LABELS) {
 				TILES[i] = getTitle();	
 			}
 		}
+		BORDER_SIZE = "Auto";
 	}
 
 	function add_Borders(){
