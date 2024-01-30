@@ -9,7 +9,7 @@
 //1.4 210411 gammaLUTs, better SplitView and all images channel toggle key
 //2.0 220704 remove gamma icon, add multiTool icon (with gammaLUT inside), add borders to SplitView
 //3.0 230428 Big refont, add action bars, new tools for the MultiTool and web documentation
-//3.1 251002 bug corrections, refactoring code and adding default border to splitviews
+//3.1 231002 bug corrections, refactoring code and adding default border to splitviews
 
 /*This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, compile, sell, or
 distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
@@ -1249,7 +1249,7 @@ function get_LUTs_Dialog(){
 	for(i=0; i<channels; i++) Dialog.addChoice("LUT " + (i+1),LUT_list, CHOSEN_LUTS[i]);
 	Dialog.show();
 	for(i=0; i<channels; i++) {
-		CHOSEN_LUTS[i] = Dialog.getRadioButton();
+		CHOSEN_LUTS[i] = Dialog.getChoice();
 		save_Pref_LUT(i, CHOSEN_LUTS[i]);
 	}
 }
