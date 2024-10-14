@@ -5,9 +5,9 @@
 This toolset is a collection of macros designed to make routine manipulation in ImageJ fast and convenient
 
 * __Installation :__
-	- in Fiji, add the Visualization Toolset [Update Site](https://imagej.net/update-sites/following)
+	- in Fiji, add the Visualization Toolset [Update Site](https://imagej.net/update-sites/following) (you also need IBMP-CNRS and BioVoxxel update sites)
 	- For ImageJ, download this repository as .zip from the last release, place the Visualization_toolset.ijm file and the icons folder in the toolset directory of your ImageJ or Fiji application. (ImageJ/macros/toolsets)     
-	- You will now find the toolset in the "More Tools" menu of imageJ main window ( [>>] button ).     
+You will now find the toolset in the "More Tools" menu of imageJ main window ( the red [>>] button).     
 
 This Toolset requires to activate the __IBMP-CNRS__ (for Action Bars) and __BioVoxxel Toolbox__ [Update Sites](https://imagej.net/update-sites/following) and an ImageJ version ≥ 1.53t
 
