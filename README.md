@@ -1,3 +1,6 @@
+**Most of this toolset functionalities have been modified / enhanced / transfered in the less clutered [Image_Viewer](https://imagej.net/plugins/image-viewer) project**        
+**I still need to figure out what to do with this one**       
+
 [![DOI](https://zenodo.org/badge/335788925.svg)](https://zenodo.org/badge/latestdoi/335788925)
 
 # Visualization Toolset
